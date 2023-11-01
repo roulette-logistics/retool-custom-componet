@@ -1,7 +1,7 @@
 import React from 'react';
-
+import FieldArray from "./FieldArray";
 import { Box, Button, Divider, TextField, Typography } from '@mui/material'
-
+import { useForm } from "react-hook-form";
 /* Default component model
   {
     "greeting": "Hello, ",  
@@ -19,35 +19,51 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
       greeting: e.target.value
     })
   }
+
+  const defaultValues = {
+    test: [
+      {
+        name: "useFieldArray1",
+        nestedArray: [{ field1: "field1", field2: "field2" }]
+      },
+      {
+        name: "useFieldArray2",
+        nestedArray: [{ field1: "field1", field2: "field2" }]
+      }
+    ]
+  };
+  const {
+    control,
+    register,
+    handleSubmit,
+    getValues,
+    errors,
+    reset,
+    setValue
+  } = useForm({
+    defaultValues
+  });
+  const onSubmit = (data) => console.log("data", data);
   return(
     <>
-          <Box sx={{ m: 1 }}>
-            <Typography variant='h2'>{model.greeting}{model.username}</Typography>
-            <Typography variant='h4'>{model.message}</Typography>
-            <Button variant="outlined"
-              onClick={()=>triggerQuery(model.runQuery)}
-            >Get a user name</Button>
-          </Box>
+          <form onSubmit={handleSubmit(onSubmit)}>
+      <h1>Array of Array Fields</h1>
+      <p>
+        The following example demonstrate the ability of building nested array
+        field
+      </p>
 
-          <Box sx={{ m: 1 }}>
-            <Typography variant='body1'>Want to trigger a query?</Typography>
-            <Button variant="outlined"
-              onClick={()=>triggerQuery(model.yesQuery)}
-            >
-              👍
-            </Button>
-            <Button variant="outlined"
-              onClick={()=>triggerQuery(model.noQuery)}
-            >
-              👎
-            </Button>
-          </Box>
+      <FieldArray
+        {...{ control, register, defaultValues, getValues, setValue, errors }}
+      />
 
-          <Divider />
+      <button type="button" onClick={() => reset(defaultValues)}>
+        Reset
+      </button>
 
-          <Box sx={{ m: 1 }}>
-            <TextField id="outlined-uncontrolled" label="Change Greeting" onChange={handleChange} />
-          </Box>
+   
+      <input type="submit" />
+    </form>
       </>
   );
 }
