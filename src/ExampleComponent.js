@@ -1,55 +1,93 @@
-import React from 'react';
-
-import { Box, Button, Divider, TextField, Typography } from '@mui/material'
-
-/* Default component model
-  {
-    "greeting": "Hello, ",  
-    "username": {{ current_user.fullName }},
-    "message": "Welcome to custom components!",
-    "yesQuery": "yesQuery",
-    "noQuery": "noQuery",
-    "runQuery": "runQuery"
-  }
-*/
+import React from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { RiDeleteBinLine } from "react-icons/ri";
+import Select from "react-select";
+import SelectComponent from "./SelectComponent";
+import { OperatorData } from "./QueryBuilderConstant";
 
 const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
-  const handleChange = (e) => {
+
+
+  const fieldOptionData = model?.columnsData.map((data)=>{
+    return {
+      value:data.column_name,
+      label:data.column_name
+    }
+  })
+
+  const { register, control, handleSubmit, reset, watch } = useForm({
+    defaultValues: {
+      filterDropDownData: [{ columnsListArray: fieldOptionData, operatorArrayData: [], columnSelectedValue:"", operatorSelectedValue:"",filterValue:""  }],
+    },
+  });
+
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "filterDropDownData",
+  });
+
+  const onSubmit = (data) => {
+    console.log('555555',model)
     modelUpdate({
-      greeting: e.target.value
-    })
-  }
-  return(
+      greeting: 5,
+    });
+  };
+
+  return (
     <>
-          <Box sx={{ m: 1 }}>
-            <Typography variant='h2'>{model.greeting}{model.username}</Typography>
-            <Typography variant='h4'>{model.message}</Typography>
-            <Button variant="outlined"
-              onClick={()=>triggerQuery(model.runQuery)}
-            >Get a user name</Button>
-          </Box>
+      <form onSubmit={handleSubmit(onSubmit)}>
+          {fields.map((item, index) => {
+            return (
+              <div style={{display:'flex', flexDirection:'row', alignItems:'center', width:'100%', gap:'15px'}}>
+            
+            <div  style={{flexBasis:'35%'}}>
+            <SelectComponent 
+            value={''} 
+            options={watch()?.filterDropDownData[index]?.columnsListArray} 
+            onChange={(dropDownValue)=>{
+                console.group('test', dropDownValue)
+            }}/>
+            </div>
 
-          <Box sx={{ m: 1 }}>
-            <Typography variant='body1'>Want to trigger a query?</Typography>
-            <Button variant="outlined"
-              onClick={()=>triggerQuery(model.yesQuery)}
-            >
-              👍
-            </Button>
-            <Button variant="outlined"
-              onClick={()=>triggerQuery(model.noQuery)}
-            >
-              👎
-            </Button>
-          </Box>
 
-          <Divider />
+            <div  style={{flexBasis:'35%'}}>
+            <SelectComponent options={OperatorData}/>
+            </div>
 
-          <Box sx={{ m: 1 }}>
-            <TextField id="outlined-uncontrolled" label="Change Greeting" onChange={handleChange} />
-          </Box>
+
+            <div  style={{flexBasis:'25%'}}>
+            <SelectComponent options={[]}/>
+            </div>
           
-      </>
+            <div  style={{flexBasis:'5%'}}>
+                <RiDeleteBinLine
+                  className="pointer"
+                  color="#B42318"
+                  size={"20"}
+                  onClick={() => {
+                    remove(index);
+                  }}
+                />
+                </div>
+
+              </div>
+            );
+          })}
+        <section>
+          <button
+            type="button"
+            onClick={() => {
+              append({ firstName: "appendBill", lastName: "appendLuo" });
+            }}
+          >
+            Add Condition
+          </button>
+        </section>
+
+        <input type="submit" value={"Done"} />
+      </form>
+    </>
   );
-}
+};
 export default ExampleComponent;
