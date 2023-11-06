@@ -32,3 +32,16 @@ export const OperatorData = [
     label: "in",
   },
 ];
+
+export const whereConditionOperator = [
+  {
+    value: "and",
+    label: "and",
+  },
+  {
+    value: "or",
+    label: "or",
+  },
+];
+
+export const requiredErrorMessage = 'This is Required';
