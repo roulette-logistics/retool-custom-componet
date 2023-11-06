@@ -16,12 +16,21 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
       disabled: !data.isSupported,
     };
   });
-  console.log("fieldOptionData", fieldOptionData);
+
   useEffect(() => {
     if (model.isBtnClicked == true) {
       onSubmit();
     }
+
+    if (model.isEdit == true) {
+      reset(model.outputData);
+      modalUpdate({
+        isEdit: false,
+      });
+    }
   }, [model]);
+
+
 
   const defaultArrayValue = {
     columnsListArray: fieldOptionData,
@@ -32,7 +41,7 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
     betweenValue: whereConditionOperator[0],
   };
 
-  const { register, control, handleSubmit, watch, setValue } = useForm({
+  const { register, control, handleSubmit, watch, setValue, reset } = useForm({
     defaultValues: {
       filterDropDownData: [defaultArrayValue],
     },
@@ -49,6 +58,7 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
     const formData = watch();
     modelUpdate({
       isBtnClicked: false,
+      outputData:formData
     });
   };
 
