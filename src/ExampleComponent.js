@@ -18,13 +18,13 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
   const defaultArrayValue = {
     columnsListArray: fieldOptionData,
     operatorArrayData: [],
-    columnSelectedValue: "",
-    operatorSelectedValue: OperatorData[0],
-    filterValue: "",
-    filterOperator: whereConditionOperator[0],
+    column: "",
+    operator: OperatorData[0],
+    value: "",
+    betweenValue: whereConditionOperator[0],
   };
 
-  const { register, control, handleSubmit, reset, watch, setValue } = useForm({
+  const { register, control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       filterDropDownData: [defaultArrayValue],
     },
@@ -66,14 +66,14 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
                   }}
                 >
                   <SelectComponent
-                    name={`filterDropDownData[${index}].filterOperator`}
-                    value={watch()?.filterDropDownData[index].filterOperator}
+                    name={`filterDropDownData[${index}].betweenValue`}
+                    value={watch()?.filterDropDownData[index].betweenValue}
                     control={control}
                     options={whereConditionOperator}
-                    onChange={(filterOperator) => {
+                    onChange={(betweenValue) => {
                       setValue(
-                        `filterDropDownData[${index}].filterOperator`,
-                        filterOperator
+                        `filterDropDownData[${index}].betweenValue`,
+                        betweenValue
                       );
                     }}
                   />
@@ -99,17 +99,17 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
                       control={control}
                       placeholder="Select Column"
                       value={
-                        watch()?.filterDropDownData[index]?.columnSelectedValue
+                        watch()?.filterDropDownData[index]?.column
                       }
-                      name={`filterDropDownData[${index}].columnSelectedValue`}
+                      name={`filterDropDownData[${index}].column`}
                       options={
                         watch()?.filterDropDownData[index]?.columnsListArray
                       }
-                      onChange={(columnSelectedValue) => {
-                        console.log("test", columnSelectedValue);
+                      onChange={(column) => {
+                        console.log("test", column);
                         setValue(
-                          `filterDropDownData[${index}].columnSelectedValue`,
-                          columnSelectedValue
+                          `filterDropDownData[${index}].column`,
+                          column
                         );
                         console.log("watch", watch(`filterDropDownData`));
                       }}
@@ -118,17 +118,17 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
 
                   <div style={{ flexBasis: "35%" }}>
                     <SelectComponent
-                      name={`filterDropDownData[${index}].operatorSelectedValue`}
+                      name={`filterDropDownData[${index}].operator`}
                       value={
                         watch()?.filterDropDownData[index]
-                          ?.operatorSelectedValue
+                          ?.operator
                       }
                       control={control}
                       options={OperatorData}
-                      onChange={(operatorSelectedValue) => {
+                      onChange={(operator) => {
                         setValue(
-                          `filterDropDownData[${index}].operatorSelectedValue`,
-                          operatorSelectedValue
+                          `filterDropDownData[${index}].operator`,
+                          operator
                         );
                       }}
                     />
@@ -139,14 +139,14 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
                       <>
                         {" "}
                         <SelectComponent
-                          value={watch()?.filterDropDownData[index].filterValue}
+                          value={watch()?.filterDropDownData[index].value}
                           control={control}
-                          name={`filterDropDownData[].filterValue`}
+                          name={`filterDropDownData[].value`}
                           options={[]}
-                          onChange={(filterValue) => {
+                          onChange={(value) => {
                             setValue(
-                              `filterDropDownData[${index}].filterValue`,
-                              filterValue
+                              `filterDropDownData[${index}].value`,
+                              value
                             );
                           }}
                         />
@@ -154,7 +154,7 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
                     ) : (
                       <TextField
                         {...register(
-                          `filterDropDownData[${index}].filterValue`
+                          `filterDropDownData[${index}].value`
                         )}
                         InputProps={{
                           style: {
@@ -204,8 +204,8 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
           </Button>
         </section>
 
-        <input type="submit" value={"Done"} />
         <Button
+        onClick={handleSubmit(onSubmit)}
           style={{
             height: "30px",
             color: "#344054",
