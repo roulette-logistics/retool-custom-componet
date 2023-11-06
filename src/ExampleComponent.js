@@ -1,19 +1,25 @@
 import Button from "@mui/material/Button";
-import React from "react";
+import TextField from "@mui/material/TextField";
+import React, { useEffect, useRef } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { AiOutlinePlayCircle, AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { OperatorData, whereConditionOperator } from "./QueryBuilderConstant";
 import SelectComponent from "./SelectComponent";
-import TextField from "@mui/material/TextField";
 
-const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
+const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {  
   const fieldOptionData = model?.columnsData.map((data) => {
     return {
       value: data.column_name,
       label: data.column_name,
     };
   });
+
+  useEffect(()=>{
+    if (model.isBtnClicked == true) {
+      onSubmit();
+    }
+  },[model])
 
   const defaultArrayValue = {
     columnsListArray: fieldOptionData,
@@ -36,11 +42,12 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
   });
 
   const onSubmit = (data) => {
+    console.log('datad', data);    
+    console.log('watch', watch());
+    const formData = watch();
     modelUpdate({
-      greeting: 5,
+      isBtnClicked: false
     });
-    console.log("555555", model);
-    console.log("data", data);
   };
 
   return (
@@ -54,7 +61,6 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
           }}
         >
           {fields.map((item, index) => {
-            console.log("item mm", item);
             return (
               <>
                 {index !== 0 ? (
@@ -106,12 +112,10 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
                         watch()?.filterDropDownData[index]?.columnsListArray
                       }
                       onChange={(column) => {
-                        console.log("test", column);
                         setValue(
                           `filterDropDownData[${index}].column`,
                           column
                         );
-                        console.log("watch", watch(`filterDropDownData`));
                       }}
                     />
                   </div>
@@ -204,23 +208,6 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
           </Button>
         </section>
 
-        <Button
-        onClick={handleSubmit(onSubmit)}
-          style={{
-            height: "30px",
-            color: "#344054",
-            fontWeight: 600,
-            fontStyle: "normal",
-            fontSize: "14px",
-            border: "1px solid #D0D5DD",
-          }}
-          component="label"
-          type="submit"
-          variant="outlined"
-          startIcon={<AiOutlinePlayCircle />}
-        >
-          Test Query
-        </Button>
       </form>
     </>
   );

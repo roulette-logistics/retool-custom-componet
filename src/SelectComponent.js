@@ -9,7 +9,6 @@ import { requiredErrorMessage } from './QueryBuilderConstant';
 
 // options - value | label
 const SelectComponent = ({ options, onChange, name, control, value, defaultValue, placeholder='' }) => {
-console.log('value tt', value)
   const DropdownIndicator = () => (
     <MdKeyboardArrowDown style={{ paddingRight: '7px' }} />
   );
