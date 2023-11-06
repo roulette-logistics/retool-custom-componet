@@ -1,25 +1,27 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { AiOutlinePlayCircle, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { OperatorData, whereConditionOperator } from "./QueryBuilderConstant";
 import SelectComponent from "./SelectComponent";
 
-const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {  
+const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
   const fieldOptionData = model?.columnsData.map((data) => {
     return {
-      value: data.column_name,
-      label: data.column_name,
+      value: data.name,
+      label: data.name,
+      dataType: data.dataType,
+      disabled: !data.isSupported,
     };
   });
-
-  useEffect(()=>{
+  console.log("fieldOptionData", fieldOptionData);
+  useEffect(() => {
     if (model.isBtnClicked == true) {
       onSubmit();
     }
-  },[model])
+  }, [model]);
 
   const defaultArrayValue = {
     columnsListArray: fieldOptionData,
@@ -42,11 +44,11 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
   });
 
   const onSubmit = (data) => {
-    console.log('datad', data);    
-    console.log('watch', watch());
+    console.log("datad", data);
+    console.log("watch", watch());
     const formData = watch();
     modelUpdate({
-      isBtnClicked: false
+      isBtnClicked: false,
     });
   };
 
@@ -55,159 +57,164 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div
           style={{
-            maxHeight: "300px",
-            overflowY: "scroll",
-            paddingLeft: "5px",
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
           }}
         >
-          {fields.map((item, index) => {
-            return (
-              <>
-                {index !== 0 ? (
-                <div
-                  style={{
-                    width: "90px",
-                    marginTop: "12px",
-                    marginBottom: "2px",
-                  }}
-                >
-                  <SelectComponent
-                    name={`filterDropDownData[${index}].betweenValue`}
-                    value={watch()?.filterDropDownData[index].betweenValue}
-                    control={control}
-                    options={whereConditionOperator}
-                    onChange={(betweenValue) => {
-                      setValue(
-                        `filterDropDownData[${index}].betweenValue`,
-                        betweenValue
-                      );
-                    }}
-                  />
-                </div>
-                ): null}
-
-                <div
-                  style={{
-                    display: "flex",
-                    marginTop: "12px",
-                    flexDirection: "row",
-                    border: "1px solid #D0D5DD",
-                    alignItems: "center",
-                    backgroundColor: "#FCFCFD",
-                    borderRadius: "12px",
-                    padding: "16px",
-                    width: "80%",
-                    gap: "15px",
-                  }}
-                >
-                  <div style={{ flexBasis: "35%" }}>
-                    <SelectComponent
-                      control={control}
-                      placeholder="Select Column"
-                      value={
-                        watch()?.filterDropDownData[index]?.column
-                      }
-                      name={`filterDropDownData[${index}].column`}
-                      options={
-                        watch()?.filterDropDownData[index]?.columnsListArray
-                      }
-                      onChange={(column) => {
-                        setValue(
-                          `filterDropDownData[${index}].column`,
-                          column
-                        );
-                      }}
-                    />
-                  </div>
-
-                  <div style={{ flexBasis: "35%" }}>
-                    <SelectComponent
-                      name={`filterDropDownData[${index}].operator`}
-                      value={
-                        watch()?.filterDropDownData[index]
-                          ?.operator
-                      }
-                      control={control}
-                      options={OperatorData}
-                      onChange={(operator) => {
-                        setValue(
-                          `filterDropDownData[${index}].operator`,
-                          operator
-                        );
-                      }}
-                    />
-                  </div>
-
-                  <div style={{ flexBasis: "25%" }}>
-                    {false ? (
-                      <>
-                        {" "}
+          <div
+            style={{
+              // maxHeight: "300px",
+              overflowY: "scroll",
+              flex: 1,
+              paddingLeft: "5px",
+            }}
+          >
+            {fields.map((item, index) => {
+              return (
+                <>
+                  <div style={{ width: "100%" }}>
+                    {index !== 0 ? (
+                      <div
+                        style={{
+                          width: "90px",
+                          marginTop: "12px",
+                          marginBottom: "2px",
+                        }}
+                      >
                         <SelectComponent
-                          value={watch()?.filterDropDownData[index].value}
+                          name={`filterDropDownData[${index}].betweenValue`}
+                          value={
+                            watch()?.filterDropDownData[index].betweenValue
+                          }
                           control={control}
-                          name={`filterDropDownData[].value`}
-                          options={[]}
-                          onChange={(value) => {
+                          options={whereConditionOperator}
+                          onChange={(betweenValue) => {
                             setValue(
-                              `filterDropDownData[${index}].value`,
-                              value
+                              `filterDropDownData[${index}].betweenValue`,
+                              betweenValue
                             );
                           }}
                         />
-                      </>
-                    ) : (
-                      <TextField
-                        {...register(
-                          `filterDropDownData[${index}].value`
-                        )}
-                        InputProps={{
-                          style: {
-                            height: "32px",
-                            borderRadius: "8px",
-                          },
-                        }}
-                        inputProps={{
-                          "aria-label": "none",
-                        }}
-                      />
-                    )}
-                  </div>
+                      </div>
+                    ) : null}
 
-                  <div style={{ flexBasis: "5%" }}>
-                    <RiDeleteBinLine
-                      className="pointer"
-                      color="#B42318"
-                      size={"20"}
-                      onClick={() => {
-                        remove(index);
+                    <div
+                      style={{
+                        display: "flex",
+                        marginTop: "12px",
+                        flexDirection: "row",
+                        border: "1px solid #D0D5DD",
+                        alignItems: "center",
+                        backgroundColor: "#FCFCFD",
+                        borderRadius: "12px",
+                        padding: "16px",
+                        width: "94%",
+                        gap: "15px",
                       }}
-                    />
+                    >
+                      <div style={{ flexBasis: "35%" }}>
+                        <SelectComponent
+                          control={control}
+                          placeholder="Select Column"
+                          value={watch()?.filterDropDownData[index]?.column}
+                          name={`filterDropDownData[${index}].column`}
+                          options={
+                            watch()?.filterDropDownData[index]?.columnsListArray
+                          }
+                          onChange={(column) => {
+                            setValue(
+                              `filterDropDownData[${index}].column`,
+                              column
+                            );
+                          }}
+                        />
+                      </div>
+
+                      <div style={{ flexBasis: "35%" }}>
+                        <SelectComponent
+                          name={`filterDropDownData[${index}].operator`}
+                          value={watch()?.filterDropDownData[index]?.operator}
+                          control={control}
+                          options={OperatorData}
+                          onChange={(operator) => {
+                            setValue(
+                              `filterDropDownData[${index}].operator`,
+                              operator
+                            );
+                          }}
+                        />
+                      </div>
+
+                      <div style={{ flexBasis: "25%" }}>
+                        {false ? (
+                          <>
+                            {" "}
+                            <SelectComponent
+                              value={watch()?.filterDropDownData[index].value}
+                              control={control}
+                              name={`filterDropDownData[].value`}
+                              options={[]}
+                              onChange={(value) => {
+                                setValue(
+                                  `filterDropDownData[${index}].value`,
+                                  value
+                                );
+                              }}
+                            />
+                          </>
+                        ) : (
+                          <TextField
+                            {...register(`filterDropDownData[${index}].value`)}
+                            InputProps={{
+                              style: {
+                                height: "32px",
+                                borderRadius: "8px",
+                              },
+                            }}
+                            inputProps={{
+                              "aria-label": "none",
+                            }}
+                          />
+                        )}
+                      </div>
+
+                      <div style={{ flexBasis: "5%" }}>
+                        <RiDeleteBinLine
+                          className="pointer"
+                          color="#B42318"
+                          size={"20"}
+                          onClick={() => {
+                            remove(index);
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </>
-            );
-          })}
+                </>
+              );
+            })}
+          </div>
+
+          <section>
+            <Button
+              style={{
+                color: "#3054B9",
+                textTransform: "none",
+                fontSize: "14px",
+                fontWeight: "600",
+                fontFamily: "Inter",
+              }}
+              onClick={() => {
+                append(defaultArrayValue);
+              }}
+              startIcon={<AiOutlinePlus />}
+              variant="text"
+            >
+              Add Condition
+            </Button>
+          </section>
         </div>
-
-        <section>
-          <Button
-            style={{
-              color: "#3054B9",
-              textTransform: "none",
-              fontSize: "14px",
-              fontWeight: "600",
-              fontFamily: "Inter",
-            }}
-            onClick={() => {
-              append(defaultArrayValue);
-            }}
-            startIcon={<AiOutlinePlus />}
-            variant="text"
-          >
-            Add Condition
-          </Button>
-        </section>
-
       </form>
     </>
   );

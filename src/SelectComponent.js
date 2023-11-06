@@ -1,9 +1,7 @@
 import React from 'react';
-import Select from "react-select";
-import { AiOutlinePlus } from "react-icons/ai";
+import { Controller } from "react-hook-form";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { Controller, useWatch } from "react-hook-form";
-import { requiredErrorMessage } from './QueryBuilderConstant';
+import Select from "react-select";
 
 
 
@@ -24,6 +22,7 @@ const SelectComponent = ({ options, onChange, name, control, value, defaultValue
         render={({ field: { ref, ...field } }) => (
           <Select
             options={options}
+            isOptionDisabled={(option) => option.disabled}
             defaultValue={defaultValue}
             placeholder={placeholder}
             styles={
@@ -56,18 +55,22 @@ const SelectComponent = ({ options, onChange, name, control, value, defaultValue
 
                     }
                 },
-                  option: (provided, state) => ({
+                option: (provided, state) => ({
                       ...provided,
                       paddingTop: '6px',
+                      color: state.data.disabled == true ? '#C7C7C7' :  "",
                       paddingBottom: '6px',
                       fontWeight: 400,
                       wordWrap:'break-word',
                       whiteSpace:'normal',
-                      fontSize: ' 14px'
+                      fontSize: ' 14px',
+                      "&:hover": {
+                        color: state.data.disabled == true ? '#C7C7C7' :  "",
+                        backgroundColor: state.data.disabled == true ? "#C7C7C7" : ""
+                    }
                   }),
                   menuPortal: provided => ({ ...provided, zIndex: 9999 }),
                   menu: provided => ({ ...provided, zIndex: 9999, color: '#7E7E7F' })
-
               }
           }
             value={value}
