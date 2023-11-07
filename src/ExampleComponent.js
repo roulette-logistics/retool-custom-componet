@@ -16,24 +16,9 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
       disabled: !data.isSupported, // if it is not supported then disable it
     };
   });
-
-  useEffect(() => {
-    if (model.isBtnClicked == true) {
-      onSubmit();
-    }
-
-    if (model.isEdit == true) {
-      reset(model.outputData);
-      modelUpdate({
-        isEdit: false,
-      });
-    }
-  }, [model]);
-
-
-
+  
   const defaultArrayValue = {
-    columnsListArray: fieldOptionData || [],
+    columnsListArray: fieldOptionData ||model.outputData?.filterDropDownData[0]?.columnsListArray ||[],
     operatorArrayData: [],
     column: "",
     operator: OperatorData[0],
@@ -51,6 +36,26 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
     control,
     name: "filterDropDownData",
   });
+
+
+
+  useEffect(() => {
+    if (model.isBtnClicked == true) {
+      onSubmit();
+    }
+
+    if (model.isEdit == true) {
+      reset(model.outputData);
+      modelUpdate({
+        isEdit: false,
+      });
+    }
+  }, [model]);
+
+
+
+
+
 
   const onSubmit = (data) => {
     const formData = watch();
@@ -83,7 +88,7 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
             {fields.map((item, index) => {
               return (
                 <>
-                  <div style={{ width: "100%" }}>
+                  <div key={index} style={{ width: "100%" }}>
                     {index !== 0 ? (
                       <div
                         style={{
