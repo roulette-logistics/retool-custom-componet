@@ -27,12 +27,6 @@ const SelectComponent = ({ options, onChange, name, control, value, defaultValue
             placeholder={placeholder}
             styles={
               {
-                  groupHeading: (base) => ({
-                      ...base,
-                      flex: '1 1',
-                      color: 'white',
-                      margin: 0,
-                  }),
                   control: (base, state) => ({
                       ...base,
                       width: '95%',
@@ -40,7 +34,9 @@ const SelectComponent = ({ options, onChange, name, control, value, defaultValue
                       minHeight:'32px',
                       borderRadius:'8px',
                       alignContent:'center',
-                      alignItems:'center'
+                      alignItems:'center',
+                      fontFamily: 'inter',
+                      fontSize: '13px',
                   }),
                   singleValue: (styles, { data }) => {
                     return {
