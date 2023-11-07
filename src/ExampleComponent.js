@@ -56,8 +56,10 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
     const formData = watch();
     modelUpdate({
       isBtnClicked: false,
-      outputData:formData
+      outputData: formData,
     });
+
+    triggerQuery("get_query_payload");
   };
 
   return (
