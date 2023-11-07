@@ -8,7 +8,7 @@ import { OperatorData, whereConditionOperator } from "./QueryBuilderConstant";
 import SelectComponent from "./SelectComponent";
 
 const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
-  const fieldOptionData = model?.columnsData.map((data) => {
+  const fieldOptionData = model?.columnsData?.map((data) => {
     return {
       value: data.name,
       label: data.name,
@@ -24,7 +24,7 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
 
     if (model.isEdit == true) {
       reset(model.outputData);
-      modalUpdate({
+      modelUpdate({
         isEdit: false,
       });
     }
@@ -33,7 +33,7 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
 
 
   const defaultArrayValue = {
-    columnsListArray: fieldOptionData,
+    columnsListArray: fieldOptionData || [],
     operatorArrayData: [],
     column: "",
     operator: OperatorData[0],
