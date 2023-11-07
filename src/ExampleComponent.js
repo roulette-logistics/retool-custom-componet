@@ -185,6 +185,8 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
                               style: {
                                 height: "32px",
                                 borderRadius: "8px",
+                                fontFamily: 'inter',
+                                fontSize: '13px',
                               },
                             }}
                             inputProps={{

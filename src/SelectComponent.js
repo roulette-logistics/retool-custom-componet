@@ -1,7 +1,7 @@
 import React from 'react';
 import { Controller } from "react-hook-form";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import Select from "react-select";
+import Select, { components } from "react-select";
 
 
 
@@ -50,7 +50,9 @@ const SelectComponent = ({ options, onChange, name, control, value, defaultValue
                             borderRadius: '4px',
                             width: 'fit-content',
                             paddingLeft: '10px',
-                            paddingRight: '10px'
+                            paddingRight: '10px',
+                            fontFamily: 'inter',
+                            fontSize: '13px',
                         }
 
                     }
@@ -64,10 +66,17 @@ const SelectComponent = ({ options, onChange, name, control, value, defaultValue
                       wordWrap:'break-word',
                       whiteSpace:'normal',
                       fontSize: ' 14px',
+                      fontFamily: 'inter',
+                      backgroundColor: state.isSelected ? "#D6DCEF" : "white",
                       "&:hover": {
                         color: state.data.disabled == true ? '#C7C7C7' :  "",
-                        backgroundColor: state.data.disabled == true ? "#C7C7C7" : ""
+                        backgroundColor: state.data.disabled == true ? "#FFFFFF" : "#F0F0F0"
                     }
+                  }),
+                  placeholder:(provided) =>({
+                    ...provided,
+                    fontSize: '14px',
+                    fontFamily: 'inter',
                   }),
                   menuPortal: provided => ({ ...provided, zIndex: 9999 }),
                   menu: provided => ({ ...provided, zIndex: 9999, color: '#7E7E7F' })
