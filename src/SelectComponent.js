@@ -68,6 +68,7 @@ const SelectComponent = ({ options, onChange, name, control, value, defaultValue
                       fontSize: ' 14px',
                       fontFamily: 'inter',
                       backgroundColor: state.isSelected ? "#D6DCEF" : "white",
+                      marginTop:'2px',
                       "&:hover": {
                         color: state.data.disabled == true ? '#C7C7C7' :  "",
                         backgroundColor: state.data.disabled == true ? "#FFFFFF" : "#F0F0F0"
