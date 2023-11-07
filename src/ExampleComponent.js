@@ -13,7 +13,7 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
       value: data.name,
       label: data.name,
       dataType: data.dataType,
-      disabled: !data.isSupported,
+      disabled: !data.isSupported, // if it is not supported then disable it
     };
   });
 
