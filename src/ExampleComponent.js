@@ -53,8 +53,6 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
   });
 
   const onSubmit = (data) => {
-    console.log("datad", data);
-    console.log("watch", watch());
     const formData = watch();
     modelUpdate({
       isBtnClicked: false,
