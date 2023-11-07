@@ -8,7 +8,7 @@ module.exports = {
   },
  output: {
     filename: "[name].js",
-    path: path.join(__dirname, "dist/examples")
+    path: path.join(__dirname, "build/examples")
   },
   devServer: {
     historyApiFallback: true,

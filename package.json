@@ -1,17 +1,16 @@
 {
   "name": "retool_custom_components",
-  "homepage": "http://roulette-logistics.github.io/zorp-monitor-query-builder",
+  "homepage": "https://roulette-logistics.github.io/retool-custom-componet",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf node_modules && rm -rf dist && rm -rf examples && yarn install",
+    "clean": "rm -rf node_modules && rm -rf build && rm -rf examples && yarn install",
     "dev": "webpack-dev-server --mode=development",
     "dev-examples": "webpack-dev-server --mode=development --config webpack.examples.config.js",
     "prod": "webpack --mode=production",
     "prod-examples": "webpack --mode=production --config webpack.examples.config.js",
-    "predeploy": "npm run prod",
-    "deploy": "gh-pages -d dist"
+    "deploy":"gh-pages -d build"
   },
   "author": "bryan-at-retool",
   "license": "ISC",
