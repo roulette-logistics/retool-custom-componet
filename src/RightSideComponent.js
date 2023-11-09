@@ -1,14 +1,14 @@
 import TextField from "@mui/material/TextField";
 import SelectComponent from "./SelectComponent";
 import React, { useState } from "react";
-import { dateTypeOptions } from "./QueryBuilderConstant";
+import { booleanOptionsData, dateTypeOptionsData } from "./QueryBuilderConstant";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { RiDeleteBinLine } from "react-icons/ri";
-import dayjs, { Dayjs } from 'dayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import dayjs, { Dayjs } from "dayjs";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { Controller } from "react-hook-form";
 const RightSideComponent = ({
   watch,
@@ -27,9 +27,11 @@ const RightSideComponent = ({
   // const isShowDateComponent = showDropdownComponent && showDateComponent
   const isShowDateComponent = false;
 
+  const showBooleanDropdown = dataType == "boolean";
+
   return (
     <div style={{ flexBasis: "35%" }}>
-      { isShowDateComponent ? (
+      {isShowDateComponent ? (
         <>
           {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DateTimePicker"]}>
@@ -37,67 +39,63 @@ const RightSideComponent = ({
             </DemoContainer>
           </LocalizationProvider> */}
 
-<Controller
-                    control={control}
-                    name={'filterDropDownData[].value'}
-                    render={({ field: { onChange, value } }) => (
-                        <LocalizationProvider
-                            style={{
-                                width: '95%',
-                                minHeight: '32px',
-                                height: '32px'
-                            }}
-                            //@ts-ignore
-                            dateAdapter={AdapterDayjs}>
-                            <DesktopDatePicker
-                            components={{
-                                OpenPickerIcon: () => <RiDeleteBinLine/>
-                              }}
-                            PopperProps={
-                                {
-                                    sx:{
-                                        "& .MuiPickersDay-root": {
-                                            "&.Mui-selected": {
-                                                color:'#ffffff !important'
-                                            },
-                                          },
-                                          "& .css-3eghsz-PrivatePickersYear-button":{
-                                                "&.Mui-selected":{
-                                                color:'#ffffff !important'
-                                                }
-                                          }
-                                      }
-                                }
-                            }
-                                inputFormat="DD/MM/YYYY"
-                                value={dayjs(value)}
-                                onChange={(value)=>{
-
-                                }}
-                                renderInput={(params) => <TextField
-                                    {...params}
-                                    style={{
-                                        width: '95%',
-                                        minHeight: '32px',
-                                        height: '32px'
-                                    }}
-                                />
-                                }
-                            />
-                        </LocalizationProvider>
-                    )}
+          <Controller
+            control={control}
+            name={"filterDropDownData[].value"}
+            render={({ field: { onChange, value } }) => (
+              <LocalizationProvider
+                style={{
+                  width: "95%",
+                  minHeight: "32px",
+                  height: "32px",
+                }}
+                //@ts-ignore
+                dateAdapter={AdapterDayjs}
+              >
+                <DesktopDatePicker
+                  components={{
+                    OpenPickerIcon: () => <RiDeleteBinLine />,
+                  }}
+                  PopperProps={{
+                    sx: {
+                      "& .MuiPickersDay-root": {
+                        "&.Mui-selected": {
+                          color: "#ffffff !important",
+                        },
+                      },
+                      "& .css-3eghsz-PrivatePickersYear-button": {
+                        "&.Mui-selected": {
+                          color: "#ffffff !important",
+                        },
+                      },
+                    },
+                  }}
+                  inputFormat="DD/MM/YYYY"
+                  value={dayjs(value)}
+                  onChange={(value) => {}}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      style={{
+                        width: "95%",
+                        minHeight: "32px",
+                        height: "32px",
+                      }}
+                    />
+                  )}
                 />
+              </LocalizationProvider>
+            )}
+          />
         </>
-      ) : 
-      
-      showDropdownComponent ? (
+      ) : (showDropdownComponent || showBooleanDropdown) ? (
         <>
           {" "}
           <SelectComponent
             value={watch()?.filterDropDownData[index].value}
             control={control}
             name={`filterDropDownData[].value`}
-            options={dateTypeOptions}
+            options={showDropdownComponent ? dateTypeOptionsData : showBooleanDropdown ? booleanOptionsData : []}
             onChange={(value) => {
               setValue(`filterDropDownData[${index}].value`, value);
 

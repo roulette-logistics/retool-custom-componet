@@ -7,7 +7,7 @@ import { OperatorData, whereConditionOperator } from "./QueryBuilderConstant";
 import RightSideComponent from "./RightSideComponent";
 import SelectComponent from "./SelectComponent";
 
-const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
+const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
   const fieldOptionData = model?.columnsData?.map((data) => {
     return {
       value: data.name,
@@ -18,12 +18,13 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
   });
   
   const defaultArrayValue = {
-    columnsListArray: fieldOptionData ||model.outputData?.filterDropDownData[0]?.columnsListArray ||[],
+    columnsListArray: fieldOptionData || model.outputData?.filterDropDownData[0]?.columnsListArray ||[],
     operatorArrayData: [],
     column: "",
     operator: OperatorData[0],
     value: "",
     betweenValue: whereConditionOperator[0],
+    dataType: ""
   };
 
   const { register, control, handleSubmit, watch, setValue, reset } = useForm({
@@ -132,6 +133,7 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
                           }
                           onChange={(column) => {
                             setValue(`filterDropDownData[${index}].value`, "");
+                            setValue(`filterDropDownData[${index}].dataType`, column.dataType);
                             setValue(
                               `filterDropDownData[${index}].column`,
                               column
@@ -208,4 +210,4 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
     </>
   );
 };
-export default ExampleComponent;
+export default QueryBuilder;

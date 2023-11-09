@@ -52,7 +52,7 @@ export const whereConditionOperator = [
   },
 ];
 
-export const dateTypeOptions = [
+export const dateTypeOptionsData = [
   {
     value: "last_30_Days",
     label: "last 30 Days",
@@ -86,5 +86,16 @@ export const dateTypeOptions = [
     label: "Choose Manually",
   }
 ]
+
+export const booleanOptionsData = [
+  {
+    value: true,
+    label: "True",
+  },
+  {
+    value: false,
+    label: "False",
+  },
+];
 
 export const requiredErrorMessage = 'This is Required';
