@@ -10,7 +10,7 @@
     "dev-examples": "webpack-dev-server --mode=development --config webpack.examples.config.js",
     "prod": "webpack --mode=production",
     "prod-examples": "webpack --mode=production --config webpack.examples.config.js",
-    "deploy":"gh-pages -d build"
+    "deploy": "gh-pages -d build"
   },
   "author": "bryan-at-retool",
   "license": "ISC",
@@ -32,6 +32,8 @@
     "@emotion/styled": "^11.8.1",
     "@mui/material": "^5.4.3",
     "@mui/styles": "^5.14.16",
+    "@mui/x-date-pickers": "^6.18.0",
+    "dayjs": "^1.11.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.47.0",

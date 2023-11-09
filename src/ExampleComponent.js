@@ -1,10 +1,10 @@
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { OperatorData, whereConditionOperator } from "./QueryBuilderConstant";
+import RightSideComponent from "./RightSideComponent";
 import SelectComponent from "./SelectComponent";
 
 const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
@@ -37,8 +37,6 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
     name: "filterDropDownData",
   });
 
-
-
   useEffect(() => {
     if (model.isBtnClicked == true) {
       onSubmit();
@@ -51,11 +49,6 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
       });
     }
   }, [model]);
-
-
-
-
-
 
   const onSubmit = (data) => {
     const formData = watch();
@@ -138,6 +131,7 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
                             watch()?.filterDropDownData[index]?.columnsListArray
                           }
                           onChange={(column) => {
+                            setValue(`filterDropDownData[${index}].value`, "");
                             setValue(
                               `filterDropDownData[${index}].column`,
                               column
@@ -146,7 +140,7 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
                         />
                       </div>
 
-                      <div style={{ flexBasis: "35%" }}>
+                      <div style={{ flexBasis: "25%" }}>
                         <SelectComponent
                           name={`filterDropDownData[${index}].operator`}
                           value={watch()?.filterDropDownData[index]?.operator}
@@ -161,42 +155,20 @@ const ExampleComponent = ({ triggerQuery, model, modelUpdate }) => {
                         />
                       </div>
 
-                      <div style={{ flexBasis: "25%" }}>
-                        {false ? (
-                          <>
-                            {" "}
-                            <SelectComponent
-                              value={watch()?.filterDropDownData[index].value}
-                              control={control}
-                              name={`filterDropDownData[].value`}
-                              options={[]}
-                              onChange={(value) => {
-                                setValue(
-                                  `filterDropDownData[${index}].value`,
-                                  value
-                                );
-                              }}
-                            />
-                          </>
-                        ) : (
-                          <TextField
-                            {...register(`filterDropDownData[${index}].value`)}
-                            InputProps={{
-                              style: {
-                                height: "32px",
-                                borderRadius: "8px",
-                                fontFamily: 'inter',
-                                fontSize: '13px',
-                              },
-                            }}
-                            inputProps={{
-                              "aria-label": "none",
-                            }}
-                          />
-                        )}
-                      </div>
+                      {watch()?.filterDropDownData[index]?.operator?.value ==
+                        "isNull" ? <div style={{ flexBasis: "35%" }}></div> : (
+                        <RightSideComponent 
+                        watch={watch} 
+                        control={control} 
+                        setValue={setValue} 
+                        index={index} 
+                        register={register} 
+                        dataType={watch()?.filterDropDownData[index].column?.dataType}
+                        operator={watch()?.filterDropDownData[index]?.operator?.value}
+                        />
+                      )}
 
-                      <div style={{ flexBasis: "5%" }}>
+                      <div style={{ flexBasis: "5%", right:0 }}>
                         <RiDeleteBinLine
                           className="pointer"
                           color="#B42318"
