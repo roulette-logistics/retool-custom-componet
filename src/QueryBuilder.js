@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { OperatorData, whereConditionOperator } from "./QueryBuilderConstant";
+import { OperatorData, getSupoortedOperators, whereConditionOperator } from "./QueryBuilderConstant";
 import RightSideComponent from "./RightSideComponent";
 import SelectComponent from "./SelectComponent";
 
@@ -147,7 +147,7 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
                           name={`filterDropDownData[${index}].operator`}
                           value={watch()?.filterDropDownData[index]?.operator}
                           control={control}
-                          options={OperatorData}
+                          options={getSupoortedOperators(watch()?.filterDropDownData[index]?.dataType)}
                           onChange={(operator) => {
                             setValue(
                               `filterDropDownData[${index}].operator`,
@@ -160,6 +160,7 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
                       {watch()?.filterDropDownData[index]?.operator?.value ==
                         "isNull" ? <div style={{ flexBasis: "35%" }}></div> : (
                         <RightSideComponent 
+                        name={`filterDropDownData[].value`}
                         watch={watch} 
                         control={control} 
                         setValue={setValue} 

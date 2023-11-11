@@ -1,15 +1,11 @@
 import TextField from "@mui/material/TextField";
-import SelectComponent from "./SelectComponent";
-import React, { useState } from "react";
-import { booleanOptionsData, dateTypeOptionsData } from "./QueryBuilderConstant";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { RiDeleteBinLine } from "react-icons/ri";
-import dayjs, { Dayjs } from "dayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { Controller } from "react-hook-form";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs, { Dayjs } from "dayjs";
+import React, { useState } from "react";
+import { booleanOptionsData, dateTypeOptionsData, requiredErrorMessage } from "./QueryBuilderConstant";
+import SelectComponent from "./SelectComponent";
 const RightSideComponent = ({
   watch,
   control,
@@ -18,47 +14,40 @@ const RightSideComponent = ({
   register,
   dataType,
   operator,
+  name
 }) => {
-  const [showDateComponent, setShowDateComponent] = useState(false);
+  const [defaultData, setDefaultDate] = useState(dayjs(new Date()));
+  const showDropdownComponent = (dataType == "date"); 
 
-  // const showDropdownComponent = dataType == "date" && operator == "between";
-  const showDropdownComponent = false;
+  const isShowDateComponent = showDropdownComponent;
 
-  // const isShowDateComponent = showDropdownComponent && showDateComponent
-  const isShowDateComponent = false;
+  const showBooleanDropdown = (dataType == "boolean");
 
-  const showBooleanDropdown = dataType == "boolean";
+      const DateHandleChange = (newValue) => {
+        const formattedDate = new Date().toISOString();
+        setValue(`filterDropDownData[${index}].value`, formattedDate);
+        setDefaultDate(newValue);
+    };
 
   return (
     <div style={{ flexBasis: "35%" }}>
       {isShowDateComponent ? (
         <>
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["DateTimePicker"]}>
-              <DateTimePicker label="Basic date time picker" />
-            </DemoContainer>
-          </LocalizationProvider> */}
-
-          <Controller
-            control={control}
-            name={"filterDropDownData[].value"}
-            render={({ field: { onChange, value } }) => (
+        d
               <LocalizationProvider
                 style={{
                   width: "95%",
+                  backgroundColor: "red",
                   minHeight: "32px",
                   height: "32px",
                 }}
-                //@ts-ignore
                 dateAdapter={AdapterDayjs}
               >
                 <DesktopDatePicker
-                  components={{
-                    OpenPickerIcon: () => <RiDeleteBinLine />,
-                  }}
                   PopperProps={{
                     sx: {
                       "& .MuiPickersDay-root": {
+                        "height": "80px",
                         "&.Mui-selected": {
                           color: "#ffffff !important",
                         },
@@ -68,25 +57,21 @@ const RightSideComponent = ({
                           color: "#ffffff !important",
                         },
                       },
+                      "& .MuiInputBase-input": {
+                        height: "80px" // Set your height here.
+                      }
                     },
                   }}
-                  inputFormat="DD/MM/YYYY"
-                  value={dayjs(value)}
-                  onChange={(value) => {}}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      style={{
-                        width: "95%",
-                        minHeight: "32px",
-                        height: "32px",
-                      }}
-                    />
-                  )}
+                  // inputFormat="DD/MM/YYYY"
+                  value={dayjs(defaultData)}
+                  onChange={DateHandleChange}
+                  renderInput={(params) => <TextField
+                    size="small"
+                    style={{ width: '50%' }}
+                    {...register(name, { required: requiredErrorMessage })}
+                    {...params} />}
                 />
               </LocalizationProvider>
-            )}
-          />
         </>
       ) : (showDropdownComponent || showBooleanDropdown) ? (
         <>
@@ -100,7 +85,7 @@ const RightSideComponent = ({
               setValue(`filterDropDownData[${index}].value`, value);
 
               if (value.value == "choose_manually") {
-                setShowDateComponent(true);
+                //
               }
             }}
           />

@@ -2,44 +2,59 @@ export const OperatorData = [
   {
     value: "=",
     label: "=",
+    supported:['text','number','date','boolean']
   },
   {
     value: "!=",
     label: "<> (NOT EQ)",
+    supported:['text','number','date','boolean']
   },
   {
     value: "<",
     label: "<",
+    supported:['number','date']
   },
   {
     value: ">",
     label: ">",
+    supported:['number','date']
   },
   {
     value: "<=",
     label: "<=",
+    supported:['number','date']
   },
   {
     value: ">=",
     label: ">=",
+    supported:['number','date']
   },
   {
     value: "like",
     label: "like",
+    supported:['text']
   },
   {
     value: "in",
     label: "in",
+    supported:['text','number','date','boolean']
   },
   {
     value: "isNull",
     label: "Is Null",
+    supported:['text','number','date','boolean']
   },
-  // {
-  //   value: "between",
-  //   label: "Between",
-  // },
+  {
+    value: "between",
+    label: "Between",
+    supported:['number','date']
+  },
 ];
+
+export const getSupoortedOperators = (dataType) => {
+  const supportedDataType  = OperatorData.filter((item) => item.supported.includes(dataType));
+  return supportedDataType  || OperatorData
+}
 
 export const whereConditionOperator = [
   {
@@ -99,3 +114,13 @@ export const booleanOptionsData = [
 ];
 
 export const requiredErrorMessage = 'This is Required';
+
+
+
+// export enum IQueryBuilderSupportedDataType {
+//   NUMBER = 'number',
+//   TEXT = 'text',
+//   BOOLEAN = 'boolean',
+//   DATE = 'date',
+//   NOT_SUPPORTED = 'not_supported'
+// }
