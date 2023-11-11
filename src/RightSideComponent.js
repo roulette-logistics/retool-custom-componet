@@ -6,6 +6,9 @@ import dayjs, { Dayjs } from "dayjs";
 import React, { useState } from "react";
 import { booleanOptionsData, dateTypeOptionsData, requiredErrorMessage } from "./QueryBuilderConstant";
 import SelectComponent from "./SelectComponent";
+import { Controller } from 'react-hook-form';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 const RightSideComponent = ({
   watch,
   control,
@@ -18,6 +21,8 @@ const RightSideComponent = ({
 }) => {
   const [defaultData, setDefaultDate] = useState(dayjs(new Date()));
   const showDropdownComponent = (dataType == "date"); 
+
+  const showDateTimeComponent = (dataType == "date_time");
 
   const isShowDateComponent = showDropdownComponent;
 
@@ -33,45 +38,53 @@ const RightSideComponent = ({
     <div style={{ flexBasis: "35%" }}>
       {isShowDateComponent ? (
         <>
-        d
-              <LocalizationProvider
-                style={{
-                  width: "95%",
-                  backgroundColor: "red",
-                  minHeight: "32px",
-                  height: "32px",
-                }}
-                dateAdapter={AdapterDayjs}
-              >
-                <DesktopDatePicker
-                  PopperProps={{
-                    sx: {
-                      "& .MuiPickersDay-root": {
-                        "height": "80px",
-                        "&.Mui-selected": {
-                          color: "#ffffff !important",
-                        },
-                      },
-                      "& .css-3eghsz-PrivatePickersYear-button": {
-                        "&.Mui-selected": {
-                          color: "#ffffff !important",
-                        },
-                      },
-                      "& .MuiInputBase-input": {
-                        height: "80px" // Set your height here.
-                      }
-                    },
-                  }}
-                  // inputFormat="DD/MM/YYYY"
-                  value={dayjs(defaultData)}
-                  onChange={DateHandleChange}
-                  renderInput={(params) => <TextField
-                    size="small"
-                    style={{ width: '50%' }}
-                    {...register(name, { required: requiredErrorMessage })}
-                    {...params} />}
+           <Controller
+                    control={control}
+                    name={name}
+                    render={({ field: { onChange, value } }) => (
+                        <LocalizationProvider
+                            style={{
+                                width: '95%',
+                                minHeight: '32px',
+                                height: '32px'
+                            }}
+                            //@ts-ignore
+                            dateAdapter={AdapterDayjs}>
+                            <DesktopDatePicker
+                            PopperProps={
+                                {
+                                    sx:{
+                                        "& .MuiPickersDay-root": {
+                                            "&.Mui-selected": {
+                                                color:'#ffffff !important'
+                                            },
+                                          },
+                                          "& .css-3eghsz-PrivatePickersYear-button":{
+                                                "&.Mui-selected":{
+                                                color:'#ffffff !important'
+                                                }
+                                          }
+                                      }
+                                }
+                            }
+                                inputFormat="DD/MM/YYYY"
+                                value={dayjs(value)}
+                                sx={{ height: '20px', maxHeight:'10px','.MuiInputBase-input': { maxHeight:'5px',height: '20px',backgroundColor:'red' } }}
+                                onChange={DateHandleChange}
+                                renderInput={(params) => <TextField
+                                    {...params}
+                                    sx={{ height: '20px', '.MuiInputBase-input': { height: '20px',backgroundColor:'red' } }}
+                                    style={{
+                                        width: '95%',
+                                        minHeight: '32px',
+                                        height: '32px'
+                                    }}
+                                />
+                                }
+                            />
+                        </LocalizationProvider>
+                    )}
                 />
-              </LocalizationProvider>
         </>
       ) : (showDropdownComponent || showBooleanDropdown) ? (
         <>
@@ -90,7 +103,29 @@ const RightSideComponent = ({
             }}
           />
         </>
-      ) : (
+      ) : false ? <>
+       <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Controller
+              control={control}
+              name={name}
+              render={({ field: { onChange, value } }) => (
+                <DateTimePicker
+                  value={value}
+                  onChange={DateHandleChange}
+                  renderInput={(params) =><TextField
+                    {...params}
+                    sx={{ height: '20px', '.MuiInputBase-input': { height: '20px',backgroundColor:'red' } }}
+                    style={{
+                        width: '95%',
+                        minHeight: '32px',
+                        height: '32px'
+                    }}
+                />}
+                />
+              )}
+            />
+          </LocalizationProvider>
+      </> : (
         <TextField
           {...register(`filterDropDownData[${index}].value`)}
           InputProps={{

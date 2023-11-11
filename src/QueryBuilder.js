@@ -6,6 +6,42 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { OperatorData, getSupoortedOperators, whereConditionOperator } from "./QueryBuilderConstant";
 import RightSideComponent from "./RightSideComponent";
 import SelectComponent from "./SelectComponent";
+import styled from 'styled-components';
+
+const FieldSelectorParentWrapper = styled.div`
+display: flex;
+flex-direction: column;
+height: 100%;
+`;
+
+const OperatorWrapper = styled.div`
+  // max-height: 300px; // Uncomment if needed
+  overflow-y: scroll;
+  flex: 1;
+  padding-left: 5px;
+`;
+
+// Styled component
+const FieldSelection = styled.div`
+  width: 90px;
+  margin-top: 12px;
+  margin-bottom: 2px;
+`;
+
+// Styled component
+const ColumnSelectionWrapper = styled.div`
+  display: flex;
+  margin-top: 12px;
+  flex-direction: row;
+  border: 1px solid #D0D5DD;
+  align-items: center;
+  background-color: #FCFCFD;
+  border-radius: 12px;
+  padding: 16px;
+  width: 94%;
+  gap: 15px;
+`;
+
 
 const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
   const fieldOptionData = model?.columnsData?.map((data) => {
@@ -51,7 +87,7 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
     }
   }, [model]);
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     const formData = watch();
     modelUpdate({
       isBtnClicked: false,
@@ -64,33 +100,15 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-          }}
-        >
-          <div
-            style={{
-              // maxHeight: "300px",
-              overflowY: "scroll",
-              flex: 1,
-              paddingLeft: "5px",
-            }}
+        <FieldSelectorParentWrapper>
+          <OperatorWrapper
           >
             {fields.map((item, index) => {
               return (
                 <>
-                  <div key={index} style={{ width: "100%" }}>
+                  <div key={index} style={{ width: "50%" }}>
                     {index !== 0 ? (
-                      <div
-                        style={{
-                          width: "90px",
-                          marginTop: "12px",
-                          marginBottom: "2px",
-                        }}
-                      >
+                      <FieldSelection>
                         <SelectComponent
                           name={`filterDropDownData[${index}].betweenValue`}
                           value={
@@ -105,22 +123,10 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
                             );
                           }}
                         />
-                      </div>
+                      </FieldSelection>
                     ) : null}
 
-                    <div
-                      style={{
-                        display: "flex",
-                        marginTop: "12px",
-                        flexDirection: "row",
-                        border: "1px solid #D0D5DD",
-                        alignItems: "center",
-                        backgroundColor: "#FCFCFD",
-                        borderRadius: "12px",
-                        padding: "16px",
-                        width: "94%",
-                        gap: "15px",
-                      }}
+                    <ColumnSelectionWrapper
                     >
                       <div style={{ flexBasis: "35%" }}>
                         <SelectComponent
@@ -181,12 +187,13 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
                           }}
                         />
                       </div>
-                    </div>
+
+                    </ColumnSelectionWrapper>
                   </div>
                 </>
               );
             })}
-          </div>
+          </OperatorWrapper>
 
           <section>
             <Button
@@ -206,7 +213,7 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
               Add Condition
             </Button>
           </section>
-        </div>
+        </FieldSelectorParentWrapper>
       </form>
     </>
   );
