@@ -115,12 +115,9 @@ export const booleanOptionsData = [
 
 export const requiredErrorMessage = 'This is Required';
 
-
-
-// export enum IQueryBuilderSupportedDataType {
-//   NUMBER = 'number',
-//   TEXT = 'text',
-//   BOOLEAN = 'boolean',
-//   DATE = 'date',
-//   NOT_SUPPORTED = 'not_supported'
-// }
+export const selectFieldAllFieldData = [{
+  value: 'select_all',
+  label: 'All Fields',
+  dataType: 'all_in',
+  disabled: false,
+}]
