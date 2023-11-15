@@ -33,8 +33,18 @@ const RightSideComponent = ({
 
       const DateHandleChange = (newValue) => {
         const formattedDate = new Date().toISOString();
-        setValue(`filterDropDownData[${index}].value`, formattedDate);
         setDefaultDate(newValue);
+        
+        const selectedDate = new Date(newValue)
+        if (selectedDate) {
+          const day = selectedDate.getDate();
+          const month = selectedDate.getMonth() + 1; // Months are 0-indexed
+          const year = selectedDate.getFullYear();
+          
+          console.log(`Day: ${day}, Month: ${month}, Year: ${year}`);
+          
+          setValue(`filterDropDownData[${index}].value`, `${day}-${month}-${year}`);
+      }
     };
 
   return (
@@ -80,7 +90,6 @@ const RightSideComponent = ({
                                         minHeight: '32px',
                                         height: '32px'
                                     }}
-
                                     InputProps={{
                                       style: {
                                         height: "32px",

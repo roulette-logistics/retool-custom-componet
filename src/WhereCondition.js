@@ -84,6 +84,7 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
   return (
     <form onSubmit={whereConditionUseFormData.handleSubmit(onSubmit)}>
       <FieldSelectorParentWrapper>
+       
         <OperatorWrapper>
           {whereConditionUseFieldArray.fields.map((item, index) => {
             return (
@@ -188,6 +189,7 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
             Add Condition
           </CTAButton>
         </section>
+
       </FieldSelectorParentWrapper>
     </form>
   )
