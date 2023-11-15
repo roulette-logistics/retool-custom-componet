@@ -9,6 +9,7 @@ import {
 } from "./QueryBuilderConstant";
 import RightSideComponent from "./RightSideComponent";
 import SelectComponent from "./SelectComponent";
+import { CTAButton } from "./Components/StyledComponents";
 
 const FieldSelectorParentWrapper = styled.div`
   display: flex;
@@ -178,14 +179,7 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
         </OperatorWrapper>
 
         <section>
-          <Button
-            style={{
-              color: "#3054B9",
-              textTransform: "none",
-              fontSize: "14px",
-              fontWeight: "600",
-              fontFamily: "Inter",
-            }}
+          <CTAButton
             onClick={() => {
               whereConditionUseFieldArray.append(whereConditionDefaultArrayValue);
             }}
@@ -193,7 +187,7 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
             variant="text"
           >
             Add Condition
-          </Button>
+          </CTAButton>
         </section>
       </FieldSelectorParentWrapper>
     </form>

@@ -1,12 +1,11 @@
 import Button from "@mui/material/Button";
 import React, { useEffect } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
+import { RiDeleteBinLine } from "react-icons/ri";
+import styled from "styled-components";
 import { OrderByOptionsData } from "./QueryBuilderConstant";
 import SelectComponent from "./SelectComponent";
-import styled from "styled-components";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { modalClasses } from "@mui/material";
+import { CTAButton } from "./Components/StyledComponents";
 
 // Styled component
 const SelectFieldWrapper = styled.div`
@@ -18,6 +17,20 @@ const SelectFieldWrapper = styled.div`
 const DeleteIconWrapper = styled.div`
   flex-basis: 5%;
   right: 0;
+`;
+
+// Styled component
+const ColumnSelectionWrapper = styled.div`
+  display: flex;
+  margin-top: 12px;
+  flex-direction: row;
+  border: 1px solid #d0d5dd;
+  align-items: center;
+  background-color: #fcfcfd;
+  border-radius: 12px;
+  padding: 16px;
+  width: 94%;
+  gap: 15px;
 `;
 
 const OrderByComponent = ({ triggerQuery, model, modelUpdate, fieldOptionData, orderByUseFormData, orderByUseFieldArray, orderByDefaultArrayValue  }) => {
@@ -38,6 +51,7 @@ const OrderByComponent = ({ triggerQuery, model, modelUpdate, fieldOptionData, o
           return (
             <>
               <SelectFieldWrapper key={index}>
+              <ColumnSelectionWrapper>
                 <div style={{ width: "100%" }}>
                   <SelectComponent
                     control={orderByUseFormData.control}
@@ -79,6 +93,7 @@ const OrderByComponent = ({ triggerQuery, model, modelUpdate, fieldOptionData, o
                     }}
                   />
                 </DeleteIconWrapper>
+                </ColumnSelectionWrapper>
               </SelectFieldWrapper>
             </>
           );
@@ -86,14 +101,7 @@ const OrderByComponent = ({ triggerQuery, model, modelUpdate, fieldOptionData, o
       </div>
       <div>
         <section>
-          <Button
-            style={{
-              color: "#3054B9",
-              textTransform: "none",
-              fontSize: "14px",
-              fontWeight: "600",
-              fontFamily: "Inter",
-            }}
+          <CTAButton
             onClick={() => {
               orderByUseFieldArray.append(orderByDefaultArrayValue);
             }}
@@ -101,7 +109,7 @@ const OrderByComponent = ({ triggerQuery, model, modelUpdate, fieldOptionData, o
             variant="text"
           >
             Add Order By
-          </Button>
+          </CTAButton>
         </section>
       </div>
     </>

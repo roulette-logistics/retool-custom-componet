@@ -67,6 +67,7 @@ const SelectField = ({ triggerQuery, model, modelUpdate }) => {
       }))
 
   return (
+    <div style={{marginTop:'12px', marginLeft:'10px'}}>
     <Select
     defaultValue={model?.selectFieldsOutput}
     isMulti
@@ -79,6 +80,7 @@ const SelectField = ({ triggerQuery, model, modelUpdate }) => {
     styles={reactSelectStyles}
     options={model?.selectFieldsOutput.find((data)=> data.value == 'select_all') ? []:   fieldOptionData}
   />
+  </div>
   )
 }
 

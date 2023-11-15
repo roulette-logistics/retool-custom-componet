@@ -113,14 +113,6 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
           />
         </WhereConditionWrapper>
 
-        <SelectFieldWrapper>
-          <SelectField
-            triggerQuery={triggerQuery}
-            model={model}
-            modelUpdate={modelUpdate}
-          />
-        </SelectFieldWrapper>
-
         <OptionsSelect>
           <OrderByComponent
             triggerQuery={triggerQuery}
@@ -132,6 +124,14 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
             orderByDefaultArrayValue={orderByDefaultArrayValue}
           />
         </OptionsSelect>
+
+        <SelectFieldWrapper>
+          <SelectField
+            triggerQuery={triggerQuery}
+            model={model}
+            modelUpdate={modelUpdate}
+          />
+        </SelectFieldWrapper>
       </QueryBuilderWrapper>
     </>
   );
