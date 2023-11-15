@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import styled from "styled-components";
-import OrderByComponent from "./OrderByComponent";
 import {
   OperatorData,
   whereConditionOperator
 } from "./QueryBuilderConstant";
-import SelectField from "./SelectField";
 import WhereCondition from "./WhereCondition";
 const QueryBuilderWrapper = styled.div`
   display: flex;
@@ -14,7 +12,7 @@ const QueryBuilderWrapper = styled.div`
 `;
 
 const WhereConditionWrapper = styled.div`
-  flex-basis: 45%;
+  flex-basis: 70%;
 `;
 
 const SelectFieldWrapper = styled.div`
@@ -24,8 +22,10 @@ const SelectFieldWrapper = styled.div`
 const OptionsSelect = styled.div`
   flex-basis: 35%;
 `;
-
+console.log('model 1111',66666666)
 const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
+  console.log('model 1111',7777777)
+  console.log('model data', model);
   const fieldOptionData = model?.columnsData?.map((data) => {
     return {
       value: data.name,
@@ -100,6 +100,7 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
 
   return (
     <>
+{model && 
       <QueryBuilderWrapper>
         <WhereConditionWrapper>
           <WhereCondition
@@ -133,6 +134,7 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
           />
         </SelectFieldWrapper> */}
       </QueryBuilderWrapper>
+    }
     </>
   );
 };

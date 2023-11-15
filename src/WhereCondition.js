@@ -65,7 +65,6 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
 
 
   useEffect(() => {
-
     if (model.isEdit == true) {
       whereConditionUseFormData.reset(model.outputData);
     }

@@ -6,6 +6,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import React, { useState } from "react";
+import './style.css'
 import { Controller } from 'react-hook-form';
 import { booleanOptionsData, dateTypeOptionsData } from "./QueryBuilderConstant";
 import SelectComponent from "./SelectComponent";
@@ -36,21 +37,18 @@ const RightSideComponent = ({
 
   return (
     <div style={{ flexBasis: "35%" }}>
-      {isShowDateComponent ? (
+      {1 ? (
         <>
-           <Controller
+        <div>
+        <Controller
                     control={control}
                     name={name}
                     render={({ field: { onChange, value } }) => (
                         <LocalizationProvider
-                            style={{
-                                width: '95%',
-                                minHeight: '32px',
-                                height: '32px'
-                            }}
                             //@ts-ignore
                             dateAdapter={AdapterDayjs}>
                             <DesktopDatePicker
+                            value={dayjs(defaultData)}
                             PopperProps={
                                 {
                                     sx:{
@@ -68,12 +66,9 @@ const RightSideComponent = ({
                                 }
                             }
                                 inputFormat="DD/MM/YYYY"
-                                value={dayjs(value)}
-                                sx={{ height: '20px', maxHeight:'10px','.MuiInputBase-input': { maxHeight:'5px',height: '20px' } }}
                                 onChange={DateHandleChange}
                                 renderInput={(params) => <TextField
                                     {...params}
-                                    sx={{ height: '20px', '.MuiInputBase-input': { height: '20px' } }}
                                     style={{
                                         width: '95%',
                                         minHeight: '32px',
@@ -85,6 +80,7 @@ const RightSideComponent = ({
                         </LocalizationProvider>
                     )}
                 />
+                </div>
         </>
       ) : (showDropdownComponent || showBooleanDropdown) ? (
         <>
@@ -113,8 +109,8 @@ const RightSideComponent = ({
                   value={value}
                   onChange={DateHandleChange}
                   renderInput={(params) =><TextField
+                    {...register(`filterDropDownData[${index}].value`)}
                     {...params}
-                    sx={{ height: '20px', '.MuiInputBase-input': { height: '20px' } }}
                     style={{
                         width: '95%',
                         minHeight: '32px',

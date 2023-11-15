@@ -35,14 +35,14 @@ const ColumnSelectionWrapper = styled.div`
 
 const OrderByComponent = ({ triggerQuery, model, modelUpdate, fieldOptionData, orderByUseFormData, orderByUseFieldArray, orderByDefaultArrayValue  }) => {
 
-  useEffect(() => {
-    if (model.isEdit == true) {
-      orderByUseFormData.reset(model.outputData);
-      modelUpdate({
-        isEdit: false,
-      });
-    }
-  },[model]);
+  // useEffect(() => {
+  //   if (model.isEdit == true) {
+  //     orderByUseFormData.reset(model.outputData);
+  //     modelUpdate({
+  //       isEdit: false,
+  //     });
+  //   }
+  // },[model]);
 
   return (
     <>
