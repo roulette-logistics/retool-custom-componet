@@ -43,12 +43,12 @@ export const OperatorData = [
     value: "isNull",
     label: "Is Null",
     supported:['text','number','date','boolean']
-  },
-  {
-    value: "between",
-    label: "Between",
-    supported:['number','date']
-  },
+  }
+  // {
+  //   value: "between",
+  //   label: "Between",
+  //   supported:['number','date']
+  // },
 ];
 
 export const getSupoortedOperators = (dataType) => {
