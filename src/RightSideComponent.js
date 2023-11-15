@@ -10,6 +10,8 @@ import './style.css'
 import { Controller } from 'react-hook-form';
 import { booleanOptionsData, dateTypeOptionsData } from "./QueryBuilderConstant";
 import SelectComponent from "./SelectComponent";
+import { FaCalendarAlt } from "react-icons/fa";
+
 const RightSideComponent = ({
   watch,
   control,
@@ -50,6 +52,9 @@ const RightSideComponent = ({
                             <DesktopDatePicker
                             value={dayjs(defaultData)}
                              slotProps={{ textField: { size: 'small' } }}
+                             components={{
+                              OpenPickerIcon: () => <FaCalendarAlt size={15} />
+                            }}
                             PopperProps={
                                 {
                                     sx:{

@@ -1,8 +1,8 @@
 .MuiInputBase-root{
     height: 32px;
-    font-size: 10px;
+    font-size: 13px !important;
 }
 
 .MuiInputBase-input{
-    font-size: 10px;
+    font-size: 13px !important;
 }
