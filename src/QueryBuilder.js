@@ -89,7 +89,7 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
     const orderByFormData = orderByUseFormData.watch();
 
     const queryBuilderOutputData = {...whereFormData, ...orderByFormData};
-    console.log('queryBuilderOutputData', queryBuilderOutputData);
+
     modelUpdate({
       isBtnClicked: false,
       outputData: queryBuilderOutputData,

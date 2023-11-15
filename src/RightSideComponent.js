@@ -37,7 +37,7 @@ const RightSideComponent = ({
 
   return (
     <div style={{ flexBasis: "35%" }}>
-      {1 ? (
+      {isShowDateComponent ? (
         <>
         <div>
         <Controller
@@ -49,6 +49,7 @@ const RightSideComponent = ({
                             dateAdapter={AdapterDayjs}>
                             <DesktopDatePicker
                             value={dayjs(defaultData)}
+                             slotProps={{ textField: { size: 'small' } }}
                             PopperProps={
                                 {
                                     sx:{
@@ -73,6 +74,16 @@ const RightSideComponent = ({
                                         width: '95%',
                                         minHeight: '32px',
                                         height: '32px'
+                                    }}
+
+                                    InputProps={{
+                                      style: {
+                                        height: "32px",
+                                        borderRadius: "8px",
+                                        fontFamily: "inter",
+                                        fontSize: "13px",
+                                        backgroundColor:'white'
+                                      },
                                     }}
                                 />
                                 }
