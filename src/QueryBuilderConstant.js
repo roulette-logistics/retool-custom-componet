@@ -121,3 +121,14 @@ export const selectFieldAllFieldData = [{
   dataType: 'all_in',
   disabled: false,
 }]
+
+export const OrderByOptionsData = [
+  {
+    value: "ASC",
+    label: "ASC",
+  },
+  {
+    value: "DESC",
+    label: "DESC",
+  }
+]

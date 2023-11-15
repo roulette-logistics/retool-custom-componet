@@ -69,11 +69,11 @@ const RightSideComponent = ({
                             }
                                 inputFormat="DD/MM/YYYY"
                                 value={dayjs(value)}
-                                sx={{ height: '20px', maxHeight:'10px','.MuiInputBase-input': { maxHeight:'5px',height: '20px',backgroundColor:'red' } }}
+                                sx={{ height: '20px', maxHeight:'10px','.MuiInputBase-input': { maxHeight:'5px',height: '20px' } }}
                                 onChange={DateHandleChange}
                                 renderInput={(params) => <TextField
                                     {...params}
-                                    sx={{ height: '20px', '.MuiInputBase-input': { height: '20px',backgroundColor:'red' } }}
+                                    sx={{ height: '20px', '.MuiInputBase-input': { height: '20px' } }}
                                     style={{
                                         width: '95%',
                                         minHeight: '32px',
@@ -114,7 +114,7 @@ const RightSideComponent = ({
                   onChange={DateHandleChange}
                   renderInput={(params) =><TextField
                     {...params}
-                    sx={{ height: '20px', '.MuiInputBase-input': { height: '20px',backgroundColor:'red' } }}
+                    sx={{ height: '20px', '.MuiInputBase-input': { height: '20px' } }}
                     style={{
                         width: '95%',
                         minHeight: '32px',

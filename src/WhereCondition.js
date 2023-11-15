@@ -62,7 +62,7 @@ const DeleteIconWrapper = styled.div`
   right: 0;
 `
 
-const WhereCondition = ({ triggerQuery, model, modelUpdate }) => {
+const WhereCondition = ({ triggerQuery, model, modelUpdate, orderBySubmit }) => {
 
   const fieldOptionData = model?.columnsData?.map((data) => {
     return {
@@ -74,7 +74,6 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate }) => {
   });
 
   const defaultArrayValue = {
-    columnsListArray: fieldOptionData || model.outputData?.filterDropDownData?.[0]?.columnsListArray || [],
     operatorArrayData: [],
     column: "",
     operator: OperatorData[0],
@@ -96,7 +95,7 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate }) => {
 
 
   useEffect(() => {
-    if (model.isBtnClicked == true) {
+    if (orderBySubmit == true) {
       onSubmit();
     }
 
@@ -156,7 +155,7 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate }) => {
                         value={watch()?.filterDropDownData?.[index]?.column || {}}
                         name={`filterDropDownData[${index}].column`}
                         options={
-                          watch()?.filterDropDownData[index]?.columnsListArray
+                          fieldOptionData || model.outputData?.filterDropDownData?.[0]?.columnsListArray || []
                         }
                         onChange={(column) => {
                           setValue(`filterDropDownData[${index}].value`, "");
