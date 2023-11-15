@@ -113,7 +113,7 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
           />
         </WhereConditionWrapper>
 
-        <OptionsSelect>
+        {/* <OptionsSelect>
           <OrderByComponent
             triggerQuery={triggerQuery}
             model={model}
@@ -131,7 +131,7 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
             model={model}
             modelUpdate={modelUpdate}
           />
-        </SelectFieldWrapper>
+        </SelectFieldWrapper> */}
       </QueryBuilderWrapper>
     </>
   );

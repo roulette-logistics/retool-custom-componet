@@ -134,6 +134,7 @@ const RightSideComponent = ({
               borderRadius: "8px",
               fontFamily: "inter",
               fontSize: "13px",
+              backgroundColor:'white'
             },
           }}
           inputProps={{
