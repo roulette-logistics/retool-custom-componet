@@ -1,10 +1,13 @@
+import React, { useEffect } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 import styled from "styled-components";
 import OrderByComponent from "./OrderByComponent";
+import {
+  OperatorData,
+  whereConditionOperator
+} from "./QueryBuilderConstant";
 import SelectField from "./SelectField";
 import WhereCondition from "./WhereCondition";
-import React, { useEffect } from "react";
-import { useState } from "react";
-
 const QueryBuilderWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -23,17 +26,77 @@ const OptionsSelect = styled.div`
 `;
 
 const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
-  const [whereConditionSubmit, setWhereConditionSubmit] = useState(false);
+  const fieldOptionData = model?.columnsData?.map((data) => {
+    return {
+      value: data.name,
+      label: data.name,
+      dataType: data.dataType,
+      disabled: !data.isSupported, // if it is not supported then disable it
+    };
+  });
 
-  const [orderBySubmit, setOrderBySubmit] = useState(false);
-  
+  const whereConditionDefaultArrayValue = {
+    operatorArrayData: [],
+    column: "",
+    operator: OperatorData[0],
+    value: "",
+    betweenValue: whereConditionOperator[0],
+    dataType: "",
+  };
+
+  //{ register, control, handleSubmit, watch, setValue, reset }
+
+  const whereConditionUseFormData = useForm({
+    defaultValues: {
+      filterDropDownData: [whereConditionDefaultArrayValue],
+    },
+  });
+
+  //{ fields, append, remove }
+  const whereConditionUseFieldArray = useFieldArray({
+    control: whereConditionUseFormData.control,
+    name: "filterDropDownData",
+  });
+
+  const orderByDefaultArrayValue = {
+    columnValue: "",
+    orderValue: "",
+  };
+
+  // { register, control, handleSubmit, watch, setValue, reset }
+  const orderByUseFormData = useForm({
+    defaultValues: {
+      orderByData: [orderByDefaultArrayValue],
+    },
+  });
+
+  // { fields, append, remove }
+  const orderByUseFieldArray = useFieldArray({
+    control:orderByUseFormData.control,
+    name: "orderByData",
+  });
+
+
   useEffect(() => {
     if (model.isBtnClicked == true) {
-      setWhereConditionSubmit(true)
-
-      setOrderBySubmit(true);
+      onSubmit();
     }
+
   }, [model]);
+
+  const onSubmit = () => {
+    const whereFormData = whereConditionUseFormData.watch();
+    const orderByFormData = orderByUseFormData.watch();
+
+    const queryBuilderOutputData = {...whereFormData, ...orderByFormData};
+    console.log('queryBuilderOutputData', queryBuilderOutputData);
+    modelUpdate({
+      isBtnClicked: false,
+      outputData: queryBuilderOutputData,
+    });
+
+    triggerQuery("get_query_payload");
+  };
 
   return (
     <>
@@ -43,7 +106,10 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
             triggerQuery={triggerQuery}
             model={model}
             modelUpdate={modelUpdate}
-            whereConditionSubmit={whereConditionSubmit}
+            fieldOptionData={fieldOptionData}
+            whereConditionUseFormData={whereConditionUseFormData}
+            whereConditionUseFieldArray={whereConditionUseFieldArray}
+            whereConditionDefaultArrayValue={whereConditionDefaultArrayValue}
           />
         </WhereConditionWrapper>
 
@@ -60,10 +126,12 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
             triggerQuery={triggerQuery}
             model={model}
             modelUpdate={modelUpdate}
-            orderBySubmit={orderBySubmit}
+            fieldOptionData={fieldOptionData}
+            orderByUseFormData={orderByUseFormData}
+            orderByUseFieldArray={orderByUseFieldArray}
+            orderByDefaultArrayValue={orderByDefaultArrayValue}
           />
         </OptionsSelect>
-        
       </QueryBuilderWrapper>
     </>
   );

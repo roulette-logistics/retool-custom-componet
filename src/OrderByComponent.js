@@ -20,65 +20,29 @@ const DeleteIconWrapper = styled.div`
   right: 0;
 `;
 
-const OrderByComponent = ({ triggerQuery, model, modelUpdate, orderBySubmit }) => {
-  const fieldOptionData = model?.columnsData?.map((data) => {
-    return {
-      value: data.name,
-      label: data.name,
-      dataType: data.dataType,
-      disabled: !data.isSupported, // if it is not supported then disable it
-    };
-  });
-
-  const defaultArrayValue = {
-    columnValue: "",
-    orderValue: "",
-  };
-
-  const { register, control, handleSubmit, watch, setValue, reset } = useForm({
-    defaultValues: {
-      orderByData: [defaultArrayValue],
-    },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "orderByData",
-  });
+const OrderByComponent = ({ triggerQuery, model, modelUpdate, fieldOptionData, orderByUseFormData, orderByUseFieldArray, orderByDefaultArrayValue  }) => {
 
   useEffect(() => {
-    if (orderBySubmit == true) {
-      onSubmit();
-    }
-
     if (model.isEdit == true) {
-      reset(model.outputData);
+      orderByUseFormData.reset(model.outputData);
       modelUpdate({
         isEdit: false,
       });
     }
-  },[]);
-
-  const onSubmit = () => {
-    const formData = watch();
-    modelUpdate({
-      isBtnClicked: false,
-      outputData: formData,
-    });
-  }
+  },[model]);
 
   return (
     <>
       <div>
-        {fields.map((data, index) => {
+        {orderByUseFieldArray.fields.map((data, index) => {
           return (
             <>
               <SelectFieldWrapper key={index}>
                 <div style={{ width: "100%" }}>
                   <SelectComponent
-                    control={control}
+                    control={orderByUseFormData.control}
                     placeholder="Select Column"
-                    value={watch()?.orderByData?.[index]?.columnValue || {}}
+                    value={orderByUseFormData.watch()?.orderByData?.[index]?.columnValue || {}}
                     name={`orderByData[${index}].column`}
                     options={
                       fieldOptionData ||
@@ -87,20 +51,20 @@ const OrderByComponent = ({ triggerQuery, model, modelUpdate, orderBySubmit }) =
                     }
                     onChange={(value) => {
                       console.log("value", value);
-                      console.log("watch", watch());
+                      console.log("watch", orderByUseFormData.watch());
                       console.log("data", model);
-                      setValue(`orderByData[${index}].columnValue`, value);
+                      orderByUseFormData.setValue(`orderByData[${index}].columnValue`, value);
                     }}
                   />
                 </div>
                 <div style={{ width: "100%" }}>
                   <SelectComponent
                     name={`orderByData[${index}].orderValue`}
-                    value={watch()?.orderByData[index]?.orderValue || {}}
-                    control={control}
+                    value={orderByUseFormData.watch()?.orderByData[index]?.orderValue || {}}
+                    control={orderByUseFormData.control}
                     options={OrderByOptionsData}
                     onChange={(orderValue) => {
-                      setValue(`orderByData[${index}].orderValue`, orderValue);
+                      orderByUseFormData.setValue(`orderByData[${index}].orderValue`, orderValue);
                     }}
                   />
                 </div>
@@ -111,7 +75,7 @@ const OrderByComponent = ({ triggerQuery, model, modelUpdate, orderBySubmit }) =
                     color="#B42318"
                     size={"20"}
                     onClick={() => {
-                      remove(index);
+                      orderByUseFieldArray.remove(index);
                     }}
                   />
                 </DeleteIconWrapper>
@@ -131,7 +95,7 @@ const OrderByComponent = ({ triggerQuery, model, modelUpdate, orderBySubmit }) =
               fontFamily: "Inter",
             }}
             onClick={() => {
-              append(defaultArrayValue);
+              orderByUseFieldArray.append(orderByDefaultArrayValue);
             }}
             startIcon={<AiOutlinePlus />}
             variant="text"

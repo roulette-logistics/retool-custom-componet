@@ -1,16 +1,14 @@
 import Button from "@mui/material/Button";
 import React, { useEffect } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
+import styled from "styled-components";
 import {
-  OperatorData,
   getSupoortedOperators,
-  whereConditionOperator,
+  whereConditionOperator
 } from "./QueryBuilderConstant";
 import RightSideComponent from "./RightSideComponent";
 import SelectComponent from "./SelectComponent";
-import styled from "styled-components";
 
 const FieldSelectorParentWrapper = styled.div`
   display: flex;
@@ -47,7 +45,7 @@ const ColumnSelectionWrapper = styled.div`
 `;
 
 const WholeWrapper = styled.div`
-  width: 100%;
+  width: 97%;
 `
 
 const SelectComponentWrapper = styled.div`
@@ -62,54 +60,19 @@ const DeleteIconWrapper = styled.div`
   right: 0;
 `
 
-const WhereCondition = ({ triggerQuery, model, modelUpdate, orderBySubmit }) => {
-
-  const fieldOptionData = model?.columnsData?.map((data) => {
-    return {
-      value: data.name,
-      label: data.name,
-      dataType: data.dataType,
-      disabled: !data.isSupported, // if it is not supported then disable it
-    };
-  });
-
-  const defaultArrayValue = {
-    operatorArrayData: [],
-    column: "",
-    operator: OperatorData[0],
-    value: "",
-    betweenValue: whereConditionOperator[0],
-    dataType: ""
-  };
-
-  const { register, control, handleSubmit, watch, setValue, reset } = useForm({
-    defaultValues: {
-      filterDropDownData: [defaultArrayValue],
-    },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "filterDropDownData",
-  });
+const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whereConditionDefaultArrayValue, whereConditionUseFormData, whereConditionUseFieldArray }) => {
 
 
   useEffect(() => {
-    if (orderBySubmit == true) {
-      onSubmit();
-    }
 
     if (model.isEdit == true) {
-      reset(model.outputData);
-      modelUpdate({
-        isEdit: false,
-      });
+      whereConditionUseFormData.reset(model.outputData);
     }
   }, [model]);
 
 
   const onSubmit = () => {
-    const formData = watch();
+    const formData = whereConditionUseFormData.watch();
     modelUpdate({
       isBtnClicked: false,
       outputData: formData,
@@ -119,11 +82,10 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, orderBySubmit }) => 
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={whereConditionUseFormData.handleSubmit(onSubmit)}>
       <FieldSelectorParentWrapper>
-        <OperatorWrapper
-        >
-          {fields.map((item, index) => {
+        <OperatorWrapper>
+          {whereConditionUseFieldArray.fields.map((item, index) => {
             return (
               <>
                 <WholeWrapper index={index}>
@@ -132,12 +94,12 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, orderBySubmit }) => 
                       <SelectComponent
                         name={`filterDropDownData[${index}].betweenValue`}
                         value={
-                          watch()?.filterDropDownData[index]?.betweenValue || {}
+                          whereConditionUseFormData.watch()?.filterDropDownData[index]?.betweenValue || {}
                         }
-                        control={control}
+                        control={whereConditionUseFormData.control}
                         options={whereConditionOperator}
                         onChange={(betweenValue) => {
-                          setValue(
+                          whereConditionUseFormData.setValue(
                             `filterDropDownData[${index}].betweenValue`,
                             betweenValue
                           );
@@ -150,17 +112,17 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, orderBySubmit }) => 
                   >
                     <SelectComponentWrapper>
                       <SelectComponent
-                        control={control}
+                        control={whereConditionUseFormData.control}
                         placeholder="Select Column"
-                        value={watch()?.filterDropDownData?.[index]?.column || {}}
+                        value={whereConditionUseFormData.watch()?.filterDropDownData?.[index]?.column || {}}
                         name={`filterDropDownData[${index}].column`}
                         options={
                           fieldOptionData || model.outputData?.filterDropDownData?.[0]?.columnsListArray || []
                         }
                         onChange={(column) => {
-                          setValue(`filterDropDownData[${index}].value`, "");
-                          setValue(`filterDropDownData[${index}].dataType`, column.dataType);
-                          setValue(
+                          whereConditionUseFormData.setValue(`filterDropDownData[${index}].value`, "");
+                          whereConditionUseFormData.setValue(`filterDropDownData[${index}].dataType`, column.dataType);
+                          whereConditionUseFormData.setValue(
                             `filterDropDownData[${index}].column`,
                             column
                           );
@@ -171,11 +133,11 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, orderBySubmit }) => 
                     <SelectComponentOperatorWrapper>
                       <SelectComponent
                         name={`filterDropDownData[${index}].operator`}
-                        value={watch()?.filterDropDownData?.[index]?.operator || {}}
-                        control={control}
-                        options={getSupoortedOperators(watch()?.filterDropDownData[index]?.dataType || [])}
+                        value={whereConditionUseFormData.watch()?.filterDropDownData?.[index]?.operator || {}}
+                        control={whereConditionUseFormData.control}
+                        options={getSupoortedOperators(whereConditionUseFormData.watch()?.filterDropDownData[index]?.dataType || [])}
                         onChange={(operator) => {
-                          setValue(
+                          whereConditionUseFormData.setValue(
                             `filterDropDownData[${index}].operator`,
                             operator
                           );
@@ -183,17 +145,17 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, orderBySubmit }) => 
                       />
                     </SelectComponentOperatorWrapper>
 
-                    {watch()?.filterDropDownData[index]?.operator?.value ==
+                    {whereConditionUseFormData.watch()?.filterDropDownData[index]?.operator?.value ==
                       "isNull" ? <SelectComponentWrapper></SelectComponentWrapper> : (
                       <RightSideComponent
                         name={`filterDropDownData[].value`}
-                        watch={watch}
-                        control={control}
-                        setValue={setValue}
+                        watch={whereConditionUseFormData.watch}
+                        control={whereConditionUseFormData.control}
+                        setValue={whereConditionUseFormData.setValue}
                         index={index}
-                        register={register}
-                        dataType={watch()?.filterDropDownData[index].column?.dataType}
-                        operator={watch()?.filterDropDownData[index]?.operator?.value}
+                        register={whereConditionUseFormData.register}
+                        dataType={whereConditionUseFormData.watch()?.filterDropDownData[index].column?.dataType}
+                        operator={whereConditionUseFormData.watch()?.filterDropDownData[index]?.operator?.value}
                       />
                     )}
 
@@ -203,7 +165,7 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, orderBySubmit }) => 
                         color="#B42318"
                         size={"20"}
                         onClick={() => {
-                          remove(index);
+                          whereConditionUseFieldArray.remove(index);
                         }}
                       />
                     </DeleteIconWrapper>
@@ -225,7 +187,7 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, orderBySubmit }) => 
               fontFamily: "Inter",
             }}
             onClick={() => {
-              append(defaultArrayValue);
+              whereConditionUseFieldArray.append(whereConditionDefaultArrayValue);
             }}
             startIcon={<AiOutlinePlus />}
             variant="text"
