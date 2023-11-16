@@ -48,7 +48,7 @@ const RightSideComponent = ({
     };
 
   return (
-    <div style={{ flexBasis: "35%" }}>
+    <div style={{ flexBasis: "20%" }}>
       {isShowDateComponent ? (
         <>
         <div>

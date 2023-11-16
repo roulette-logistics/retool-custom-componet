@@ -8,20 +8,21 @@ import {
 import WhereCondition from "./WhereCondition";
 const QueryBuilderWrapper = styled.div`
   display: flex;
-  justify-content: flex-start;
+  // justify-content: flex-start;
 `;
 
 const WhereConditionWrapper = styled.div`
-  flex-basis: 70%;
+  // flex-basis: 100%;
+  width: 100%;
 `;
 
-const SelectFieldWrapper = styled.div`
-  flex-basis: 20%;
-`;
+// const SelectFieldWrapper = styled.div`
+//   flex-basis: 20%;
+// `;
 
-const OptionsSelect = styled.div`
-  flex-basis: 35%;
-`;
+// const OptionsSelect = styled.div`
+//   flex-basis: 35%;
+// `;
 console.log('model 1111',66666666)
 const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
   console.log('model 1111',7777777)

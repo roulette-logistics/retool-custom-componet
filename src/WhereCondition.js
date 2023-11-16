@@ -39,10 +39,10 @@ const ColumnSelectionWrapper = styled.div`
   border: 1px solid #d0d5dd;
   align-items: center;
   background-color: #fcfcfd;
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 16px;
-  width: 94%;
-  gap: 15px;
+  width: 99%;
+  gap: 5px;
 `;
 
 const WholeWrapper = styled.div`
@@ -54,7 +54,7 @@ const SelectComponentWrapper = styled.div`
 `
 
 const SelectComponentOperatorWrapper = styled.div`
-  flex-basis: 25%;
+  flex-basis: 35%;
 `
 const DeleteIconWrapper = styled.div`
   flex-basis: 5%;
@@ -72,13 +72,13 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
 
 
   const onSubmit = () => {
-    const formData = whereConditionUseFormData.watch();
-    modelUpdate({
-      isBtnClicked: false,
-      outputData: formData,
-    });
+    // const formData = whereConditionUseFormData.watch();
+    // modelUpdate({
+    //   isBtnClicked: false,
+    //   outputData: formData,
+    // });
 
-    triggerQuery("get_query_payload");
+    // triggerQuery("get_query_payload");
   };
 
   return (
