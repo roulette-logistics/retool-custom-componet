@@ -1,37 +1,11 @@
-import Button from "@mui/material/Button";
-import React, { useEffect } from "react";
+import React from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
-import styled from "styled-components";
+import { CTAButton, ColumnSelectionWrapper, DeleteIconWrapper, SelectFieldWrapper } from "./Components/StyledComponents";
 import { OrderByOptionsData } from "./QueryBuilderConstant";
 import SelectComponent from "./SelectComponent";
-import { CTAButton } from "./Components/StyledComponents";
 
-// Styled component
-const SelectFieldWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-    align-items: center;
-`;
 
-const DeleteIconWrapper = styled.div`
-  flex-basis: 5%;
-  right: 0;
-`;
-
-// Styled component
-const ColumnSelectionWrapper = styled.div`
-  display: flex;
-  margin-top: 12px;
-  flex-direction: row;
-  border: 1px solid #d0d5dd;
-  align-items: center;
-  background-color: #fcfcfd;
-  border-radius: 12px;
-  padding: 16px;
-  width: 94%;
-  gap: 15px;
-`;
 
 const OrderByComponent = ({ triggerQuery, model, modelUpdate, fieldOptionData, orderByUseFormData, orderByUseFieldArray, orderByDefaultArrayValue  }) => {
 
@@ -64,9 +38,6 @@ const OrderByComponent = ({ triggerQuery, model, modelUpdate, fieldOptionData, o
                       []
                     }
                     onChange={(value) => {
-                      console.log("value", value);
-                      console.log("watch", orderByUseFormData.watch());
-                      console.log("data", model);
                       orderByUseFormData.setValue(`orderByData[${index}].columnValue`, value);
                     }}
                   />

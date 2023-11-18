@@ -43,12 +43,12 @@ export const OperatorData = [
     value: "isNull",
     label: "Is Null",
     supported:['text','number','date','boolean']
-  }
-  // {
-  //   value: "between",
-  //   label: "Between",
-  //   supported:['number','date']
-  // },
+  },
+  {
+    value: "between",
+    label: "Between",
+    supported:['date']
+  },
 ];
 
 export const getSupoortedOperators = (dataType) => {
@@ -71,34 +71,42 @@ export const dateTypeOptionsData = [
   {
     value: "last_30_Days",
     label: "last 30 Days",
+    type:'text'
   },
   {
     value: "last_7_Days",
     label: "last 7 Days",
+    type:'text'
   },
   {
     value: "last_3_Days",
     label: "last 3 Days",
+    type:'text'
   },
   {
     value: "last_2_Days",
     label: "last 2 Days",
+    type:'text'
   },
   {
     value: "last_24_Hours",
     label: "last 24 Hours",
+    type:'text'
   },
   {
     value: "last_12_Hours",
     label: "last 12 Hours",
+    type:'text'
   },
   {
     value: "last_1_Hours",
     label: "last 1 Hours",
+    type:'text'
   },
   {
     value: "choose_manually",
     label: "Choose Manually",
+    type:'date'
   }
 ]
 

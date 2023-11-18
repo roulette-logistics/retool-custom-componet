@@ -72,7 +72,6 @@ const SelectField = ({ triggerQuery, model, modelUpdate }) => {
     defaultValue={model?.selectFieldsOutput}
     isMulti
     onChange={(value)=>{
-      // console.log('value', value);
       modelUpdate({
         selectFieldsOutput: value
       })

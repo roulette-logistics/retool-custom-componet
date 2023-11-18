@@ -1,20 +1,11 @@
 import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import styled from "styled-components";
 import {
-  OperatorData,
-  whereConditionOperator
-} from "./QueryBuilderConstant";
+  QueryBuilderWrapper,
+  WhereConditionWrapper,
+} from "./Components/StyledComponents";
+import { OperatorData, whereConditionOperator } from "./QueryBuilderConstant";
 import WhereCondition from "./WhereCondition";
-const QueryBuilderWrapper = styled.div`
-  display: flex;
-  // justify-content: flex-start;
-`;
-
-const WhereConditionWrapper = styled.div`
-  // flex-basis: 100%;
-  width: 100%;
-`;
 
 // const SelectFieldWrapper = styled.div`
 //   flex-basis: 20%;
@@ -23,10 +14,7 @@ const WhereConditionWrapper = styled.div`
 // const OptionsSelect = styled.div`
 //   flex-basis: 35%;
 // `;
-console.log('model 1111',66666666)
 const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
-  console.log('model 1111',7777777)
-  console.log('model data', model);
   const fieldOptionData = model?.columnsData?.map((data) => {
     return {
       value: data.name,
@@ -41,6 +29,8 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
     column: "",
     operator: OperatorData[0],
     value: "",
+    fromValue: "", // this is only for between operator for date and date time
+    toValue: "", // this is only for between operator for date and date time
     betweenValue: whereConditionOperator[0],
     dataType: "",
   };
@@ -73,23 +63,21 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
 
   // { fields, append, remove }
   const orderByUseFieldArray = useFieldArray({
-    control:orderByUseFormData.control,
+    control: orderByUseFormData.control,
     name: "orderByData",
   });
-
 
   useEffect(() => {
     if (model.isBtnClicked == true) {
       onSubmit();
     }
-
   }, [model]);
 
   const onSubmit = () => {
     const whereFormData = whereConditionUseFormData.watch();
     const orderByFormData = orderByUseFormData.watch();
 
-    const queryBuilderOutputData = {...whereFormData, ...orderByFormData};
+    const queryBuilderOutputData = { ...whereFormData, ...orderByFormData };
 
     modelUpdate({
       isBtnClicked: false,
@@ -101,21 +89,21 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
 
   return (
     <>
-{model && 
-      <QueryBuilderWrapper>
-        <WhereConditionWrapper>
-          <WhereCondition
-            triggerQuery={triggerQuery}
-            model={model}
-            modelUpdate={modelUpdate}
-            fieldOptionData={fieldOptionData}
-            whereConditionUseFormData={whereConditionUseFormData}
-            whereConditionUseFieldArray={whereConditionUseFieldArray}
-            whereConditionDefaultArrayValue={whereConditionDefaultArrayValue}
-          />
-        </WhereConditionWrapper>
+      {model && (
+        <QueryBuilderWrapper>
+          <WhereConditionWrapper>
+            <WhereCondition
+              triggerQuery={triggerQuery}
+              model={model}
+              modelUpdate={modelUpdate}
+              fieldOptionData={fieldOptionData}
+              whereConditionUseFormData={whereConditionUseFormData}
+              whereConditionUseFieldArray={whereConditionUseFieldArray}
+              whereConditionDefaultArrayValue={whereConditionDefaultArrayValue}
+            />
+          </WhereConditionWrapper>
 
-        {/* <OptionsSelect>
+          {/* <OptionsSelect>
           <OrderByComponent
             triggerQuery={triggerQuery}
             model={model}
@@ -134,8 +122,8 @@ const QueryBuilder = ({ triggerQuery, model, modelUpdate }) => {
             modelUpdate={modelUpdate}
           />
         </SelectFieldWrapper> */}
-      </QueryBuilderWrapper>
-    }
+        </QueryBuilderWrapper>
+      )}
     </>
   );
 };

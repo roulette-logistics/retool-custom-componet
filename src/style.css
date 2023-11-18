@@ -1,8 +1,20 @@
 .MuiInputBase-root{
     height: 32px;
     font-size: 13px !important;
+    width: 100% !important; 
+    radius: 8px !important;
+    border-radius: 8px !important;
+    background-color: white !important;
 }
 
 .MuiInputBase-input{
     font-size: 13px !important;
+}
+
+.MuiTextField-root {
+    width: 100% !important; 
+}
+
+.full-width{
+    width: 100%;
 }

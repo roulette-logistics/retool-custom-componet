@@ -1,68 +1,15 @@
-import Button from "@mui/material/Button";
 import React, { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiDeleteBinLine } from "react-icons/ri";
-import styled from "styled-components";
+import { CTAButton, ColumnSelectionWrapperWhere, DeleteIconWrapperWhereCondition, FieldSelection, FieldSelectorParentWrapper, OperatorWrapper, SelectComponentOperatorWrapper, SelectComponentWrapper, WholeWrapper } from "./Components/StyledComponents";
 import {
   getSupoortedOperators,
   whereConditionOperator
 } from "./QueryBuilderConstant";
 import RightSideComponent from "./RightSideComponent";
 import SelectComponent from "./SelectComponent";
-import { CTAButton } from "./Components/StyledComponents";
-
-const FieldSelectorParentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
-
-const OperatorWrapper = styled.div`
-  // max-height: 300px; // Uncomment if needed
-  overflow-y: scroll;
-  flex: 1;
-  padding-left: 5px;
-`;
-
-// Styled component
-const FieldSelection = styled.div`
-  width: 90px;
-  margin-top: 12px;
-  margin-bottom: 2px;
-`;
-
-// Styled component
-const ColumnSelectionWrapper = styled.div`
-  display: flex;
-  margin-top: 12px;
-  flex-direction: row;
-  border: 1px solid #d0d5dd;
-  align-items: center;
-  background-color: #fcfcfd;
-  border-radius: 4px;
-  padding: 16px;
-  width: 99%;
-  gap: 5px;
-`;
-
-const WholeWrapper = styled.div`
-  width: 97%;
-`
-
-const SelectComponentWrapper = styled.div`
-  flex-basis: 35%;
-`
-
-const SelectComponentOperatorWrapper = styled.div`
-  flex-basis: 35%;
-`
-const DeleteIconWrapper = styled.div`
-  flex-basis: 5%;
-  right: 0;
-`
 
 const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whereConditionDefaultArrayValue, whereConditionUseFormData, whereConditionUseFieldArray }) => {
-
 
   useEffect(() => {
     if (model.isEdit == true) {
@@ -109,8 +56,7 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
                     </FieldSelection>
                   ) : null}
 
-                  <ColumnSelectionWrapper
-                  >
+                  <ColumnSelectionWrapperWhere>
                     <SelectComponentWrapper>
                       <SelectComponent
                         control={whereConditionUseFormData.control}
@@ -148,6 +94,7 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
 
                     {whereConditionUseFormData.watch()?.filterDropDownData[index]?.operator?.value ==
                       "isNull" ? <SelectComponentWrapper></SelectComponentWrapper> : (
+                        <div style={{ flexBasis: "50%" }}>
                       <RightSideComponent
                         name={`filterDropDownData[].value`}
                         watch={whereConditionUseFormData.watch}
@@ -158,9 +105,10 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
                         dataType={whereConditionUseFormData.watch()?.filterDropDownData[index].column?.dataType}
                         operator={whereConditionUseFormData.watch()?.filterDropDownData[index]?.operator?.value}
                       />
+                      </div>
                     )}
 
-                    <DeleteIconWrapper>
+                    <DeleteIconWrapperWhereCondition>
                       <RiDeleteBinLine
                         className="pointer"
                         color="#B42318"
@@ -169,9 +117,9 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
                           whereConditionUseFieldArray.remove(index);
                         }}
                       />
-                    </DeleteIconWrapper>
+                    </DeleteIconWrapperWhereCondition>
 
-                  </ColumnSelectionWrapper>
+                  </ColumnSelectionWrapperWhere>
                 </WholeWrapper>
               </>
             );
