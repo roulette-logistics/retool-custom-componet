@@ -1,14 +1,14 @@
-import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { BetweenDateComponentWrapper } from "./Components/StyledComponents";
 import DateComponent from "./DateComponent";
 import {
   booleanOptionsData,
   dateTypeOptionsData,
 } from "./QueryBuilderConstant";
+import QueryBuilderTextField from "./QueryBuilderTextField";
 import SelectComponent from "./SelectComponent";
 import "./style.css";
-import { BetweenDateComponentWrapper } from "./Components/StyledComponents";
 
 const RightSideComponent = ({
   watch,
@@ -20,19 +20,43 @@ const RightSideComponent = ({
   operator,
   name,
 }) => {
-  const [defaultDate, setDefaultDate] = useState(dayjs(new Date()));
+  const [dropDownValue, setDropDownValue] = useState(null);
 
+  const [defaultDate, setDefaultDate] = useState(dayjs(new Date()));
   const [fromDefaultValue, setFromDefaultValue] = useState(dayjs(new Date()));
   const [toDefaultValue, setToDefaultValue] = useState(dayjs(new Date()));
 
+  const [showDateComponent, setShowDateComponent] = useState(false);
+
+  const [showDropdownComponent, setShowDropdownComponent] = useState(false);
+  const [showDateTimeComponent, setShowDateTimeComponent] = useState(false);
   const [showTwoDateComponent, setShowTwoDateComponent] = useState(false);
-  const showDropdownComponent = dataType == "date" && operator == "between";
+  const [showBooleanDropdown, setShowBooleanDropdown] = useState(false);
+  const [showTwoTextField, setShowTwoTextField] = useState(false);
 
-  const showDateTimeComponent = dataType == "date_time";
+  useEffect(() => {
+    setShowDateTimeComponent(false);
+    setShowDateComponent(false);
+    setShowDropdownComponent(false);
+    setShowBooleanDropdown(false);
+    setShowTwoTextField(false);
+    setShowTwoDateComponent(false);
 
-  const isShowDateComponent = dataType == "date" && operator != "between";
-
-  const showBooleanDropdown = dataType == "boolean";
+    if (
+      (dataType == "date" || dataType == "date_time") && operator == "between" && dropDownValue != "choose_manually") 
+    { setShowDropdownComponent(true);
+    } else if (dataType == "date" && operator != "between") {
+      setShowDateComponent(true);
+    } else if (dataType == "boolean") {
+      setShowBooleanDropdown(true);
+    } else if (dataType == "date" && dropDownValue == "choose_manually"){
+      setShowTwoDateComponent(true);
+    } else if (dropDownValue == "choose_manually" && dataType == "date_time" && operator == "between") {
+      setShowTwoTextField(true);
+    } else if (dataType == "date_time") {
+      setShowDateTimeComponent(true);
+    }
+  }, [dataType, operator, dropDownValue]);
 
   const DateHandleChange = (newValue) => {
     setDefaultDate(newValue);
@@ -43,7 +67,6 @@ const RightSideComponent = ({
       const month = selectedDate.getMonth() + 1; // Months are 0-indexed
       const year = selectedDate.getFullYear();
       setValue(`filterDropDownData[${index}].value`, `${day}-${month}-${year}`);
-      console.log("DateHandleChange value", watch());
     }
   };
 
@@ -62,7 +85,6 @@ const RightSideComponent = ({
         ...watch()?.filterDropDownData[index].value,
         from_value: dateValue,
       });
-      console.log("DateHandleChangeFrom value", watch());
     }
   };
 
@@ -81,71 +103,78 @@ const RightSideComponent = ({
         ...watch()?.filterDropDownData[index].value,
         to_value: dateValue,
       });
-      console.log("DateHandleChangeTo value", watch());
     }
   };
 
   return (
     <>
       {showTwoDateComponent ? (
+        <BetweenDateComponentWrapper>
+          <DateComponent
+            control={control}
+            value={dayjs(fromDefaultValue)}
+            dateOnChange={DateHandleChangeFrom}
+            name={"filterDropDownData[].fromValue"}
+          />
+
+          <DateComponent
+            control={control}
+            value={dayjs(toDefaultValue)}
+            dateOnChange={DateHandleChangeTo}
+            name={"filterDropDownData[].toValue"}
+          />
+        </BetweenDateComponentWrapper>
+      ) : showTwoTextField ? (
         <>
           <BetweenDateComponentWrapper>
-            <DateComponent
-              control={control}
-              value={dayjs(fromDefaultValue)}
-              dateOnChange={DateHandleChangeFrom}
-              name={"filterDropDownData[].fromValue"}
+            <QueryBuilderTextField
+              register={register}
+              name={`filterDropDownData[${index}].fromValue`}
             />
-
-            <DateComponent
-              control={control}
-              value={dayjs(toDefaultValue)}
-              dateOnChange={DateHandleChangeTo}
-              name={"filterDropDownData[].toValue"}
+            <QueryBuilderTextField
+              register={register}
+              name={`filterDropDownData[${index}].toValue`}
             />
           </BetweenDateComponentWrapper>
         </>
       ) : showDropdownComponent || showBooleanDropdown ? (
-        <>
-          {" "}
-          <SelectComponent
-            value={watch()?.filterDropDownData[index].value}
-            control={control}
-            name={`filterDropDownData[].value`}
-            options={
-              showDropdownComponent
-                ? dateTypeOptionsData
-                : showBooleanDropdown
-                ? booleanOptionsData
-                : []
-            }
-            onChange={(value) => {
-              setValue(`filterDropDownData[${index}].value`, value);
+        <SelectComponent
+          value={watch()?.filterDropDownData[index].value}
+          control={control}
+          name={`filterDropDownData[].value`}
+          options={
+            showDropdownComponent
+              ? dateTypeOptionsData
+              : showBooleanDropdown
+              ? booleanOptionsData
+              : []
+          }
+          onChange={(value) => {
+            setValue(`filterDropDownData[${index}].value`, value);
 
-              if (value.value == "choose_manually" && dataType == "date") {
-                setShowTwoDateComponent(true);
-              }
-            }}
-          />
-        </>
+            setDropDownValue(value.value);
+            // if (value.value == "choose_manually" && dataType == "date") {
+            //   setShowTwoDateComponent(true);
+            // } else if (
+            //   value.value == "choose_manually" &&
+            //   dataType == "date_time"
+            // ) {
+            //   setShowTwoTextField(true);
+            // }
+          }}
+        />
       ) : showDateTimeComponent ? (
-        <>
-          <QueryBuilderTextField
-            register={register}
-            name={`filterDropDownData[${index}].value`}
-          />
-        </>
-      ) : isShowDateComponent ? (
-        <>
-          <div>
-            <DateComponent
-              control={control}
-              value={dayjs(defaultDate)}
-              dateOnChange={DateHandleChange}
-              name={name}
-            />
-          </div>
-        </>
+        <QueryBuilderTextField
+          register={register}
+          name={`filterDropDownData[${index}].value`}
+        />
+      ) : showDateComponent ? (
+        <DateComponent
+          control={control}
+          value={dayjs(defaultDate)}
+          dateOnChange={DateHandleChange}
+          name={name}
+        />
       ) : (
         <QueryBuilderTextField
           register={register}

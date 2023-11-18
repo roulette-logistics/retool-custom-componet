@@ -1,8 +1,9 @@
 import React from 'react'
 import TextField from "@mui/material/TextField";
 
-const QueryBuilderTextField = ({register, name}) => {
+const QueryBuilderTextField = ({register, name, onChange}) => {
   return (
+    <>
     <TextField
     className="full-width"
     {...register(name)}
@@ -19,7 +20,8 @@ const QueryBuilderTextField = ({register, name}) => {
       "aria-label": "none",
     }}
   />
+  </>
   )
 }
 
-export default TextField
+export default QueryBuilderTextField

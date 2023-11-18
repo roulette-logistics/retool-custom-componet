@@ -17,21 +17,9 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
     }
   }, [model]);
 
-
-  const onSubmit = () => {
-    // const formData = whereConditionUseFormData.watch();
-    // modelUpdate({
-    //   isBtnClicked: false,
-    //   outputData: formData,
-    // });
-
-    // triggerQuery("get_query_payload");
-  };
-
   return (
-    <form onSubmit={whereConditionUseFormData.handleSubmit(onSubmit)}>
+    <form>
       <FieldSelectorParentWrapper>
-       
         <OperatorWrapper>
           {whereConditionUseFieldArray.fields.map((item, index) => {
             return (
