@@ -43,67 +43,80 @@ const RightSideComponent = ({
     setShowTwoDateComponent(false);
 
     if (
-      (dataType == "date" || dataType == "date_time") && operator == "between" && dropDownValue != "choose_manually") 
-    { setShowDropdownComponent(true);
+      (dataType == "date" || dataType == "date_time") &&
+      operator == "between" &&
+      dropDownValue != "choose_manually"
+    ) {
+      setShowDropdownComponent(true);
     } else if (dataType == "date" && operator != "between") {
       setShowDateComponent(true);
+      const value = outputDefaultDate(dayjs(defaultDate));
+      setValue(`filterDropDownData[${index}].value`, value);
     } else if (dataType == "boolean") {
       setShowBooleanDropdown(true);
-    } else if (dataType == "date" && dropDownValue == "choose_manually"){
+    } else if (dataType == "date" && dropDownValue == "choose_manually") {
       setShowTwoDateComponent(true);
-    } else if (dropDownValue == "choose_manually" && dataType == "date_time" && operator == "between") {
+      const fromValue = outputDefaultDate(dayjs(fromDefaultValue));
+      const toValue = outputDefaultDate(dayjs(toDefaultValue));
+      setValue(`filterDropDownData[${index}].fromValue`, fromValue);
+      setValue(`filterDropDownData[${index}].toValue`, toValue);
+
+      setValue(`filterDropDownData[${index}].value`, {
+        ...watch()?.filterDropDownData[index].value,
+        from_value: fromValue,
+      });
+
+      setValue(`filterDropDownData[${index}].value`, {
+        ...watch()?.filterDropDownData[index].value,
+        to_value: toValue,
+      });
+    } else if (
+      dropDownValue == "choose_manually" &&
+      dataType == "date_time" &&
+      operator == "between"
+    ) {
       setShowTwoTextField(true);
     } else if (dataType == "date_time") {
       setShowDateTimeComponent(true);
     }
   }, [dataType, operator, dropDownValue]);
 
-  const DateHandleChange = (newValue) => {
-    setDefaultDate(newValue);
-
+  const outputDefaultDate = (newValue) => {
     const selectedDate = new Date(newValue);
     if (selectedDate) {
       const day = selectedDate.getDate();
       const month = selectedDate.getMonth() + 1; // Months are 0-indexed
       const year = selectedDate.getFullYear();
-      setValue(`filterDropDownData[${index}].value`, `${day}-${month}-${year}`);
+      return `${day}-${month}-${year}`;
     }
+  };
+  const DateHandleChange = (newValue) => {
+    setDefaultDate(newValue);
+    const value = outputDefaultDate(newValue);
+    setValue(`filterDropDownData[${index}].value`, value);
   };
 
   const DateHandleChangeFrom = (newValue) => {
     setFromDefaultValue(newValue);
 
-    const selectedDate = new Date(newValue);
-    if (selectedDate) {
-      const day = selectedDate.getDate();
-      const month = selectedDate.getMonth() + 1; // Months are 0-indexed
-      const year = selectedDate.getFullYear();
-      const dateValue = `${day}-${month}-${year}`;
+    const value = outputDefaultDate(newValue);
 
-      setValue(`filterDropDownData[${index}].fromValue`, dateValue);
-      setValue(`filterDropDownData[${index}].value`, {
-        ...watch()?.filterDropDownData[index].value,
-        from_value: dateValue,
-      });
-    }
+    setValue(`filterDropDownData[${index}].fromValue`, value);
+    setValue(`filterDropDownData[${index}].value`, {
+      ...watch()?.filterDropDownData[index].value,
+      from_value: value,
+    });
   };
 
   const DateHandleChangeTo = (newValue) => {
     setToDefaultValue(newValue);
+    const value = outputDefaultDate(newValue);
 
-    const selectedDate = new Date(newValue);
-    if (selectedDate) {
-      const day = selectedDate.getDate();
-      const month = selectedDate.getMonth() + 1; // Months are 0-indexed
-      const year = selectedDate.getFullYear();
-      const dateValue = `${day}-${month}-${year}`;
-
-      setValue(`filterDropDownData[${index}].toValue`, dateValue);
-      setValue(`filterDropDownData[${index}].value`, {
-        ...watch()?.filterDropDownData[index].value,
-        to_value: dateValue,
-      });
-    }
+    setValue(`filterDropDownData[${index}].toValue`, value);
+    setValue(`filterDropDownData[${index}].value`, {
+      ...watch()?.filterDropDownData[index].value,
+      to_value: value,
+    });
   };
 
   return (
@@ -128,28 +141,28 @@ const RightSideComponent = ({
         <>
           <BetweenDateComponentWrapper>
             <QueryBuilderTextField
-            control={control}
-            onChange={(value) => {
-              setValue(`filterDropDownData[${index}].value`, {
-                ...watch()?.filterDropDownData[index].value,
-                from_value: value,
-              });
-              setValue(`filterDropDownData[${index}].fromValue`, value);
-            }}
+              control={control}
+              onChange={(value) => {
+                setValue(`filterDropDownData[${index}].value`, {
+                  ...watch()?.filterDropDownData[index].value,
+                  from_value: value,
+                });
+                setValue(`filterDropDownData[${index}].fromValue`, value);
+              }}
               register={register}
               name={`filterDropDownData[${index}].fromValue`}
             />
             <QueryBuilderTextField
-            control={control}
-            onChange={(value) => {
-              console.log('out', value);
-              setValue(`filterDropDownData[${index}].value`, {
-                ...watch()?.filterDropDownData[index].value,
-                to_value: value,
-              });
+              control={control}
+              onChange={(value) => {
+                console.log("out", value);
+                setValue(`filterDropDownData[${index}].value`, {
+                  ...watch()?.filterDropDownData[index].value,
+                  to_value: value,
+                });
 
-              setValue(`filterDropDownData[${index}].toValue`, value);
-            }}
+                setValue(`filterDropDownData[${index}].toValue`, value);
+              }}
               register={register}
               name={`filterDropDownData[${index}].toValue`}
             />
@@ -183,10 +196,10 @@ const RightSideComponent = ({
         />
       ) : showDateTimeComponent ? (
         <QueryBuilderTextField
-        control={control}
-        onChange={(value) => {
-          console.log('out', value);
-        }}
+          control={control}
+          onChange={(value) => {
+            console.log("out", value);
+          }}
           register={register}
           name={`filterDropDownData[${index}].value`}
         />
@@ -199,10 +212,10 @@ const RightSideComponent = ({
         />
       ) : (
         <QueryBuilderTextField
-        control={control}
-        onChange={(value) => {
-          console.log('out', value);
-        }}
+          control={control}
+          onChange={(value) => {
+            console.log("out", value);
+          }}
           register={register}
           name={`filterDropDownData[${index}].value`}
         />
