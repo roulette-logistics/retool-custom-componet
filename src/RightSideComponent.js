@@ -128,10 +128,28 @@ const RightSideComponent = ({
         <>
           <BetweenDateComponentWrapper>
             <QueryBuilderTextField
+            control={control}
+            onChange={(value) => {
+              setValue(`filterDropDownData[${index}].value`, {
+                ...watch()?.filterDropDownData[index].value,
+                from_value: value,
+              });
+              setValue(`filterDropDownData[${index}].fromValue`, value);
+            }}
               register={register}
               name={`filterDropDownData[${index}].fromValue`}
             />
             <QueryBuilderTextField
+            control={control}
+            onChange={(value) => {
+              console.log('out', value);
+              setValue(`filterDropDownData[${index}].value`, {
+                ...watch()?.filterDropDownData[index].value,
+                to_value: value,
+              });
+
+              setValue(`filterDropDownData[${index}].toValue`, value);
+            }}
               register={register}
               name={`filterDropDownData[${index}].toValue`}
             />
@@ -165,6 +183,10 @@ const RightSideComponent = ({
         />
       ) : showDateTimeComponent ? (
         <QueryBuilderTextField
+        control={control}
+        onChange={(value) => {
+          console.log('out', value);
+        }}
           register={register}
           name={`filterDropDownData[${index}].value`}
         />
@@ -177,6 +199,10 @@ const RightSideComponent = ({
         />
       ) : (
         <QueryBuilderTextField
+        control={control}
+        onChange={(value) => {
+          console.log('out', value);
+        }}
           register={register}
           name={`filterDropDownData[${index}].value`}
         />

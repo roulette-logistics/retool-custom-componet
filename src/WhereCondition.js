@@ -17,6 +17,12 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
     }
   }, [model]);
 
+  const clearValue = () =>{
+    whereConditionUseFormData.setValue(`filterDropDownData[${index}].value`, "");
+    whereConditionUseFormData.setValue(`filterDropDownData[${index}].fromValue`, "");
+    whereConditionUseFormData.setValue(`filterDropDownData[${index}].toValue`, "");
+  }
+
   return (
     <form>
       <FieldSelectorParentWrapper>
@@ -55,12 +61,12 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
                           fieldOptionData || model.outputData?.filterDropDownData?.[0]?.columnsListArray || []
                         }
                         onChange={(column) => {
-                          whereConditionUseFormData.setValue(`filterDropDownData[${index}].value`, "");
                           whereConditionUseFormData.setValue(`filterDropDownData[${index}].dataType`, column.dataType);
                           whereConditionUseFormData.setValue(
                             `filterDropDownData[${index}].column`,
                             column
                           );
+                          clearValue();
                         }}
                       />
                     </SelectComponentWrapper>
@@ -75,7 +81,8 @@ const WhereCondition = ({ triggerQuery, model, modelUpdate, fieldOptionData, whe
                           whereConditionUseFormData.setValue(
                             `filterDropDownData[${index}].operator`,
                             operator
-                          );
+                            );
+                          clearValue();
                         }}
                       />
                     </SelectComponentOperatorWrapper>
